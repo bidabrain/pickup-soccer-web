@@ -181,7 +181,8 @@ CREATE INDEX idx_matches_start ON matches(start_utc);
 | GET | `/api/matches` | 首页列表（`start_utc >= now - 30天`），含计算后的人数/状态 | 否 |
 | POST | `/api/matches` | 新建预约（校验 7 天窗口，算 `start_utc`，哈希管理 PIN） | 设置 |
 | GET | `/api/matches/:id` | 详情 + 报名列表（按 position 排序，标确认/候补/队长） | 否 |
-| PUT | `/api/matches/:id` | 创建人编辑本场（不可改名单） | 管理 |
+| PUT | `/api/matches/:id` | 创建人编辑本场（不可改名单，不可改 `date`） | 管理 |
+| DELETE | `/api/matches/:id` | 创建人删除整场（仅未开赛，级联删报名） | 管理 |
 | POST | `/api/matches/:id/registrations` | 报名（判重 PIN，分配 position） | 设置 |
 | PUT | `/api/matches/:id/registrations/:rid` | 改自己的报名（如改名） | 个人 |
 | DELETE | `/api/matches/:id/registrations/:rid` | 删自己的报名 | 个人 |
@@ -192,11 +193,10 @@ CREATE INDEX idx_matches_start ON matches(start_utc);
 - **新建**：`date` 必须 ∈ `[todayInTZ(tz), todayInTZ(tz)+7]`；`time`/`venue`/`fee`/`max_players` 必填；PIN 必须 6 位数字。
 - **过期锁定**：任何写接口若目标场 `now > start_utc`，一律拒绝（`409 MATCH_LOCKED`），仅 GET 可用。
 - **报名**：`position = 当前最大 position + 1`；插入命中 `UNIQUE` → `409 PIN_DUPLICATE`。
-- **编辑本场**：只允许改 `time/venue/fee/max_players/note`（`date`/`timezone` 是否可改见下）；**禁止**通过此接口改动 `registrations`。
+- **编辑本场**：只允许改 `time/venue/fee/max_players/note`；**`date` 锁死不可改**（要换日期只能删场重建）；**禁止**通过此接口改动 `registrations`。改 `max_players` 会自动重算确认/候补（无需改库，因为该划分按 position 实时计算）。
+- **删除整场**：仅创建人（管理 PIN）可删，且仅限 `now <= start_utc`（未开赛）；过期场不可手动删（由 30 天 Cron 自动清理）。前端须二次确认并提示「将移除 N 名报名球员」。`ON DELETE CASCADE` 自动清理 `registrations`。
 - **抽队长**：从「确认上场」(`position <= max_players`) 中随机取 2 个置 `is_captain=1`，其余清 0，`captains_drawn=1`；可重复抽（覆盖上次）。
-- **限流**：所有「验证 PIN」的接口（PUT/DELETE 报名、PUT 本场、POST 队长）走 2.2 的限流。
-
-> 待定项：编辑本场时是否允许改 `date`/`max_players`。建议允许，但改 `max_players` 会影响确认/候补划分（自动重算，无需改库）；改 `date` 仍须落在 7 天窗口内。
+- **限流**：所有「验证 PIN」的接口（PUT/DELETE 报名、PUT/DELETE 本场、POST 队长）走 2.2 的限流。
 
 ### 4.2 错误码
 
@@ -287,16 +287,18 @@ crons = ["0 3 * * *"]   # 每日 03:00 UTC 清理
 
 ## 9. 里程碑
 
-1. **M1 基建**：repo + Pages + D1 建库建表 + wrangler 骨架。
-2. **M2 后端**：matches/registrations CRUD + PIN 方案 + 限流 + Cron。
-3. **M3 前端**：三页 + 弹窗 + 时区选择 + 状态/置灰渲染。
-4. **M4 联调上线**：CORS、部署、端到端验证（建场→报名→候补→抽队长→过期→清理）。
+1. **M1 基建**：✅ 已完成 —— repo + monorepo（web/ + worker/）+ D1 建库建表 + Worker 核心切片（health/列表/建场/详情/报名，端到端验证）+ GitHub Actions 自动部署（Pages + Worker）。
+   - 前端：`https://bidabrain.github.io/pickup-soccer-web/`
+   - 后端：`https://pickup-soccer-api.bidabrain.workers.dev`
+2. **M2 后端补全**：编辑/删除本场、改/删报名、抽队长、PIN 验证 + 限流、CORS 收紧到 Pages 域名。
+3. **M3 前端**：三页 + 弹窗 + 时区选择（完整 IANA 列表）+ 状态/置灰渲染 + 接入 API。
+4. **M4 联调上线**：端到端验证（建场→报名→候补→抽队长→编辑→删除→过期→清理）。
 
 ---
 
-## 附录：未决问题
+## 附录：已定稿决策
 
-- 编辑本场允许修改的字段范围（`date`/`max_players` 是否可改）。
-- 时区下拉的候选列表（建议：Asia/Seoul 默认 + Asia/Shanghai/Tokyo + 跟随本机）。
-- 费用是否需要支持小数 / 多币种（当前设计为整数元）。
-- 是否需要「创建人删除整场」能力（当前仅自动 30 天清理）。
+- **编辑本场字段**：`time/venue/fee/max_players/note` 可改；**`date` 锁死**（换日期=删场重建）；名单永不可经编辑接口改。
+- **删除整场**：创建人（管理 PIN）可删**未开赛**场次，过期场不可删；前端二次确认。
+- **时区**：完整可搜索 IANA 列表（`Intl.supportedValuesOf('timeZone')`），默认 `Asia/Seoul` (KST)。
+- **费用**：整数元（暂不支持小数 / 多币种）。
