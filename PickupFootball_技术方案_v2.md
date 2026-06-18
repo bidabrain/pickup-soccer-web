@@ -290,7 +290,7 @@ crons = ["0 3 * * *"]   # 每日 03:00 UTC 清理
 1. **M1 基建**：✅ 已完成 —— repo + monorepo（web/ + worker/）+ D1 建库建表 + Worker 核心切片（health/列表/建场/详情/报名，端到端验证）+ GitHub Actions 自动部署（Pages + Worker）。
    - 前端：`https://bidabrain.github.io/pickup-soccer-web/`
    - 后端：`https://pickup-soccer-api.bidabrain.workers.dev`
-2. **M2 后端补全**：编辑/删除本场、改/删报名、抽队长、PIN 验证 + 限流、CORS 收紧到 Pages 域名。
+2. **M2 后端补全**：✅ 已完成 —— 编辑/删除本场、改/删报名、抽队长、D1 限流（PIN 失败 5/10 分钟、建场/报名防灌水）、CORS 收紧到 Pages+localhost。已部署并生产验证。
 3. **M3 前端**：三页 + 弹窗 + 时区选择（完整 IANA 列表）+ 状态/置灰渲染 + 接入 API。
 4. **M4 联调上线**：端到端验证（建场→报名→候补→抽队长→编辑→删除→过期→清理）。
 
