@@ -12,7 +12,7 @@ export interface Env {
 
 const DAY = 86400000
 const PIN_WINDOW = 10 * 60 * 1000 // PIN 失败窗口 10 分钟
-const PIN_LIMIT = 5 // 10 分钟内最多 5 次失败
+const PIN_LIMIT = 10 // 10 分钟内最多 10 次失败
 
 const ALLOWED_ORIGINS = ['https://bidabrain.github.io', 'http://localhost:5173']
 

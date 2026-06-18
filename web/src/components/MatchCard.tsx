@@ -46,7 +46,7 @@ export default function MatchCard({ m }: { m: MatchListItem }) {
           <span>
             {m.confirmed} / {m.max_players} 人
           </span>
-          <span>¥{m.fee} / 人</span>
+          <span>₩{m.fee.toLocaleString()} / 人</span>
         </div>
         <button onClick={share} className="text-xs text-emerald-700 hover:underline">
           分享

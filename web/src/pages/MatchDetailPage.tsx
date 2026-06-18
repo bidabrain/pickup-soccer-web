@@ -69,7 +69,7 @@ export default function MatchDetailPage() {
     <Shell onBack={() => navigate('/')} onShare={share}>
       <p className="text-lg font-medium text-gray-900">{whenLabel(m.date, m.time)}</p>
       <p className="mt-1 text-sm text-gray-500">
-        {m.venue} · {tzLabel(m.timezone, m.start_utc)} · ¥{m.fee}/人 · 上场 {m.max_players} 人
+        {m.venue} · {tzLabel(m.timezone, m.start_utc)} · ₩{m.fee.toLocaleString()}/人 · 上场 {m.max_players} 人
       </p>
       {m.note && <p className="mt-2 rounded-lg bg-gray-100 p-2 text-sm text-gray-600">{m.note}</p>}
       {m.locked && <p className="mt-2 text-sm text-gray-400">该场已结束，仅可查看</p>}

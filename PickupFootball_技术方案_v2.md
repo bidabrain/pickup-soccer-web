@@ -43,7 +43,7 @@
 
 4–6 位 PIN 熵低，必须配合限流：
 
-- **限流**：同一 IP + 同一 `match_id`，验证 PIN 失败 **5 次 / 10 分钟**即临时锁定。优先用 Cloudflare 原生 Rate Limiting binding；无则用 KV 计数器（key=`{ip}:{matchId}`，TTL 600s）。
+- **限流**：同一 IP + 同一 `match_id`，验证 PIN 失败 **10 次 / 10 分钟**即临时锁定（常量 `PIN_LIMIT`，可调）。实现用 D1 滑动窗口计数（`rate_limits` 表）。
 - **强制 6 位数字 PIN**（10⁶ 组合），配合限流后枚举不可行。
 - 验证失败统一返回 `401 PIN_INVALID`，不泄露名字是否存在。
 - 慢哈希（PBKDF2 100k 次）增加离线破解成本。
@@ -143,7 +143,7 @@ CREATE TABLE matches (
   timezone           TEXT    NOT NULL DEFAULT 'Asia/Seoul',
   start_utc          INTEGER NOT NULL,           -- 绝对 UTC 毫秒
   venue              TEXT    NOT NULL,
-  fee                INTEGER NOT NULL,           -- 每人费用（整数，单位元）
+  fee                INTEGER NOT NULL,           -- 每人费用（整数，单位韩元 ₩）
   max_players        INTEGER NOT NULL,           -- 上场人数
   note               TEXT,                       -- 备注（可空）
   organizer_pin_hash TEXT    NOT NULL,           -- 管理 PIN（PBKDF2）
@@ -290,7 +290,7 @@ crons = ["0 3 * * *"]   # 每日 03:00 UTC 清理
 1. **M1 基建**：✅ 已完成 —— repo + monorepo（web/ + worker/）+ D1 建库建表 + Worker 核心切片（health/列表/建场/详情/报名，端到端验证）+ GitHub Actions 自动部署（Pages + Worker）。
    - 前端：`https://bidabrain.github.io/pickup-soccer-web/`
    - 后端：`https://pickup-soccer-api.bidabrain.workers.dev`
-2. **M2 后端补全**：✅ 已完成 —— 编辑/删除本场、改/删报名、抽队长、D1 限流（PIN 失败 5/10 分钟、建场/报名防灌水）、CORS 收紧到 Pages+localhost。已部署并生产验证。
+2. **M2 后端补全**：✅ 已完成 —— 编辑/删除本场、改/删报名、抽队长、D1 限流（PIN 失败 10/10 分钟、建场/报名防灌水）、CORS 收紧到 Pages+localhost。已部署并生产验证。
 3. **M3 前端**：✅ 已完成 —— HashRouter 三页（首页/新建/详情）+ 报名/管理/编辑/删除/抽队长弹窗 + 完整 IANA 时区选择（默认 KST）+ 状态徽章/置灰 + 分享深链 `#/match/:id` + 接入 API。已部署。
 4. **M4 联调上线**：端到端验证（建场→报名→候补→抽队长→编辑→删除→过期→清理）。
 
@@ -301,7 +301,7 @@ crons = ["0 3 * * *"]   # 每日 03:00 UTC 清理
 - **编辑本场字段**：`time/venue/fee/max_players/note` 可改；**`date` 锁死**（换日期=删场重建）；名单永不可经编辑接口改。
 - **删除整场**：创建人（管理 PIN）可删**未开赛**场次，过期场不可删；前端二次确认。
 - **时区**：完整可搜索 IANA 列表（`Intl.supportedValuesOf('timeZone')`），默认 `Asia/Seoul` (KST)。
-- **费用**：整数元（暂不支持小数 / 多币种）。
+- **费用**：整数韩元 ₩（暂不支持小数 / 多币种）。
 - **PIN 判重范围**：仅在「同场报名 PIN 之间」判重（`UNIQUE(match_id, pin_lookup)`）。管理 PIN 存于 `matches` 表、不参与判重；因此**同一人可用同一个 PIN 既管理本场又报名**，两者独立验证、互不冲突。
 - **报名管理方式**：返回用户在公开名单中**点选自己那一行**，再输入个人 PIN 验证所有权后改/删（不做「按 PIN 反查报名」）。PIN 仅用于授权，不用于定位。
 - **分享链接**：每场固定深链 `#/match/<id>`（id 为随机 UUID，不可猜）。卡片提供「分享」按钮复制链接。链接不额外存储，生命周期随数据：未开赛=可操作，过期=只读（30 天内），30 天 Cron 清理后 `GET` 返回 404 → 前端显示「已失效」。无需独立销毁机制。

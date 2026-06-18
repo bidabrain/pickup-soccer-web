@@ -20,7 +20,7 @@ export default function CreateMatchPage() {
   const [date, setDate] = useState(dates[0])
   const [time, setTime] = useState('19:00')
   const [venue, setVenue] = useState('')
-  const [fee, setFee] = useState('20')
+  const [fee, setFee] = useState('10000')
   const [maxPlayers, setMaxPlayers] = useState('10')
   const [note, setNote] = useState('')
   const [pin, setPin] = useState('')
@@ -104,7 +104,7 @@ export default function CreateMatchPage() {
 
         <div className="flex gap-3">
           <div className="flex-1">
-            <label className="mb-1 block text-xs text-gray-500">每人费用（元）</label>
+            <label className="mb-1 block text-xs text-gray-500">每人费用（韩元 ₩）</label>
             <input type="number" min={0} value={fee} onChange={(e) => setFee(e.target.value)} className={field} />
           </div>
           <div className="flex-1">
