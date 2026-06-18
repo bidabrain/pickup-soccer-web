@@ -29,5 +29,12 @@ CREATE TABLE IF NOT EXISTS registrations (
   UNIQUE(match_id, pin_lookup)                   -- 同场 PIN 判重
 );
 
+-- 限流表：bucket = "类型:ip[:matchId]"，滑动窗口计数
+CREATE TABLE IF NOT EXISTS rate_limits (
+  bucket       TEXT    PRIMARY KEY,
+  count        INTEGER NOT NULL,
+  window_start INTEGER NOT NULL                  -- UTC 毫秒
+);
+
 CREATE INDEX IF NOT EXISTS idx_reg_match     ON registrations(match_id, position);
 CREATE INDEX IF NOT EXISTS idx_matches_start ON matches(start_utc);
