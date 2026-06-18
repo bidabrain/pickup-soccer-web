@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 1292" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <style>
+    .title{font-size:22px;font-weight:600;fill:#fff}
+    .sub{font-size:13px;fill:#bfe6d8}
+    .url{font-size:12px;fill:#9FE1CB}
+    .numt{font-size:15px;font-weight:600;fill:#fff;text-anchor:middle}
+    .h{font-size:17px;font-weight:600;fill:#0b3d33}
+    .s{font-size:13px;fill:#374151}
+    .sn{font-size:13px;font-weight:600;fill:#1D9E75}
+    .warn{font-size:13px;font-weight:600;fill:#A32D2D}
+    .card{fill:#fff;stroke:#e5e7eb}
+    .ph{fill:#f9fafb;stroke:#e5e7eb}
+    .phbar{fill:#0F6E56}
+    .pht{font-size:10px;fill:#fff}
+    .mini{font-size:9px;fill:#6b7280}
+    .bgt{font-size:8px}
+  </style>
+
+  <rect width="760" height="1292" fill="#ffffff"/>
+
+  <!-- header -->
+  <rect x="16" y="16" width="728" height="120" rx="14" fill="#0F6E56"/>
+  <circle cx="56" cy="62" r="20" fill="#0b5a47"/>
+  <text x="56" y="68" font-size="22" text-anchor="middle">⚽</text>
+  <text x="90" y="58" class="title">Pickup Football 使用说明</text>
+  <text x="90" y="84" class="sub">无需注册 · 凭 PIN 管理预约与报名</text>
+  <text x="90" y="110" class="url">bidabrain.github.io/pickup-soccer-web</text>
+
+  <!-- S1 首页 -->
+  <rect x="16" y="152" width="728" height="170" rx="12" class="card"/>
+  <circle cx="40" cy="184" r="14" fill="#1D9E75"/><text x="40" y="189" class="numt">1</text>
+  <text x="64" y="190" class="h">首页 · 浏览场次</text>
+  <text x="64" y="222" class="s"><tspan class="sn">①</tspan> 打开网址即可看到所有预约场次，无需登录</text>
+  <text x="64" y="246" class="s"><tspan class="sn">②</tspan> 角标显示状态：还差 N 人 / 已满+候补 / 已结束(灰)</text>
+  <text x="64" y="270" class="s"><tspan class="sn">③</tspan> 点卡片看详情，点「分享」复制该场链接</text>
+  <text x="64" y="294" class="s"><tspan class="sn">④</tspan> 点右下角 ＋ 新建一场预约</text>
+  <rect x="566" y="170" width="160" height="134" rx="12" class="ph"/>
+  <path d="M566 182a12 12 0 0 1 12-12h136a12 12 0 0 1 12 12v12H566z" class="phbar"/>
+  <text x="578" y="187" class="pht">Pickup Football</text>
+  <rect x="578" y="206" width="136" height="44" rx="6" fill="#fff" stroke="#eee"/>
+  <text x="586" y="224" class="mini" fill="#374151">周五 6/20 · 19:00</text>
+  <text x="586" y="238" class="mini">滨江 3 号场 · ₩10,000</text>
+  <rect x="640" y="212" width="66" height="16" rx="8" fill="#FAEEDA"/>
+  <text x="673" y="223" class="bgt" fill="#854F0B" text-anchor="middle">还差 7 人</text>
+  <circle cx="700" cy="284" r="13" fill="#1D9E75"/><text x="700" y="290" text-anchor="middle" font-size="18" fill="#fff">+</text>
+
+  <!-- S2 新建 -->
+  <rect x="16" y="338" width="728" height="170" rx="12" class="card"/>
+  <circle cx="40" cy="370" r="14" fill="#1D9E75"/><text x="40" y="375" class="numt">2</text>
+  <text x="64" y="376" class="h">新建预约</text>
+  <text x="64" y="408" class="s"><tspan class="sn">①</tspan> 选时区(默认韩国 KST)与日期(限今天起 7 天内)</text>
+  <text x="64" y="432" class="s"><tspan class="sn">②</tspan> 填时间、场地、每人费用(₩)、上场人数，备注选填</text>
+  <text x="64" y="456" class="s"><tspan class="sn">③</tspan> 设 6 位管理 PIN —— 日后改/删本场都要它</text>
+  <text x="64" y="480" class="s"><tspan class="sn">④</tspan> 点「创建预约」，即出现在首页</text>
+  <rect x="566" y="356" width="160" height="134" rx="12" class="ph"/>
+  <path d="M566 368a12 12 0 0 1 12-12h136a12 12 0 0 1 12 12v12H566z" class="phbar"/>
+  <text x="578" y="373" class="pht">← 新建预约</text>
+  <text x="578" y="398" class="mini">时区 / 日期 / 时间 / 场地</text>
+  <text x="578" y="414" class="mini">费用 ₩ · 人数</text>
+  <text x="578" y="438" class="mini" fill="#854F0B">设置管理 PIN</text>
+  <g fill="#fff" stroke="#cbd5e1">
+    <rect x="578" y="444" width="18" height="22" rx="4"/><rect x="600" y="444" width="18" height="22" rx="4"/>
+    <rect x="622" y="444" width="18" height="22" rx="4"/><rect x="644" y="444" width="18" height="22" rx="4"/>
+    <rect x="666" y="444" width="18" height="22" rx="4"/><rect x="688" y="444" width="18" height="22" rx="4"/>
+  </g>
+
+  <!-- S3 报名 -->
+  <rect x="16" y="524" width="728" height="200" rx="12" class="card"/>
+  <circle cx="40" cy="556" r="14" fill="#1D9E75"/><text x="40" y="561" class="numt">3</text>
+  <text x="64" y="562" class="h">报名参加</text>
+  <text x="64" y="594" class="s"><tspan class="sn">①</tspan> 进入场次，点绿色「报名参加」</text>
+  <text x="64" y="618" class="s"><tspan class="sn">②</tspan> 输入名字 + 设 6 位个人 PIN</text>
+  <text x="64" y="642" class="s"><tspan class="sn">③</tspan> 同一场内 PIN 不能与他人重复，重复会提示换一个</text>
+  <text x="64" y="666" class="s"><tspan class="sn">④</tspan> 报名超过上场人数后，后来者自动进候补名单</text>
+  <text x="64" y="690" class="s"><tspan class="sn">⑤</tspan> 可帮多位朋友报名(各用不同名字+不同 PIN)</text>
+  <rect x="566" y="542" width="160" height="164" rx="12" class="ph"/>
+  <path d="M566 554a12 12 0 0 1 12-12h136a12 12 0 0 1 12 12v12H566z" class="phbar"/>
+  <text x="578" y="559" class="pht">← 场次详情</text>
+  <rect x="578" y="576" width="136" height="74" rx="6" fill="#fff" stroke="#eee"/>
+  <text x="586" y="592" class="mini" fill="#374151">报名参加</text>
+  <rect x="586" y="600" width="120" height="18" rx="4" fill="#f3f4f6"/>
+  <text x="592" y="612" class="mini">你的名字</text>
+  <g fill="#fff" stroke="#cbd5e1">
+    <rect x="586" y="624" width="16" height="20" rx="3"/><rect x="606" y="624" width="16" height="20" rx="3"/>
+    <rect x="626" y="624" width="16" height="20" rx="3"/><rect x="646" y="624" width="16" height="20" rx="3"/>
+    <rect x="666" y="624" width="16" height="20" rx="3"/><rect x="686" y="624" width="16" height="20" rx="3"/>
+  </g>
+  <rect x="578" y="664" width="136" height="26" rx="6" fill="#1D9E75"/>
+  <text x="646" y="681" class="pht" text-anchor="middle">确认报名</text>
+
+  <!-- S4 管理报名 -->
+  <rect x="16" y="740" width="728" height="176" rx="12" class="card"/>
+  <circle cx="40" cy="772" r="14" fill="#1D9E75"/><text x="40" y="777" class="numt">4</text>
+  <text x="64" y="778" class="h">管理我的报名</text>
+  <text x="64" y="810" class="s"><tspan class="sn">①</tspan> 在名单里点你自己的名字</text>
+  <text x="64" y="834" class="s"><tspan class="sn">②</tspan> 输入报名时设的那个个人 PIN</text>
+  <text x="64" y="858" class="s"><tspan class="sn">③</tspan> 验证通过后可改名或删除(仅本人 PIN 可操作)</text>
+  <text x="64" y="882" class="s"><tspan class="warn">!</tspan> <tspan fill="#A32D2D">连续输错 10 次会锁约 10 分钟(防别人猜 PIN)</tspan></text>
+  <rect x="566" y="758" width="160" height="140" rx="12" class="ph"/>
+  <path d="M566 770a12 12 0 0 1 12-12h136a12 12 0 0 1 12 12v12H566z" class="phbar"/>
+  <text x="578" y="775" class="pht">← 报名名单</text>
+  <text x="582" y="800" class="mini">1. 小明</text>
+  <rect x="574" y="808" width="144" height="20" rx="4" fill="#E1F5EE"/>
+  <text x="582" y="822" class="mini" fill="#0F6E56">2. 王伟　👆 点自己</text>
+  <text x="582" y="844" class="mini">3. 张磊</text>
+  <text x="582" y="868" class="mini" fill="#854F0B">输入你的 PIN</text>
+  <g fill="#fff" stroke="#cbd5e1">
+    <rect x="582" y="874" width="16" height="18" rx="3"/><rect x="602" y="874" width="16" height="18" rx="3"/>
+    <rect x="622" y="874" width="16" height="18" rx="3"/><rect x="642" y="874" width="16" height="18" rx="3"/>
+    <rect x="662" y="874" width="16" height="18" rx="3"/><rect x="682" y="874" width="16" height="18" rx="3"/>
+  </g>
+
+  <!-- S5 创建人 -->
+  <rect x="16" y="932" width="728" height="176" rx="12" class="card"/>
+  <circle cx="40" cy="964" r="14" fill="#1D9E75"/><text x="40" y="969" class="numt">5</text>
+  <text x="64" y="970" class="h">创建人功能（管理 PIN）</text>
+  <text x="64" y="1002" class="s"><tspan class="sn">①</tspan> 编辑本场：可改时间/场地/费用/人数；日期不可改</text>
+  <text x="64" y="1026" class="s"><tspan class="sn">②</tspan> 删除本场：仅未开赛，会移除全部报名，需二次确认</text>
+  <text x="64" y="1050" class="s"><tspan class="sn">③</tspan> 随机抽 2 名队长(蓝/红两色标注，可重抽)</text>
+  <text x="64" y="1074" class="s"><tspan class="warn">!</tspan> <tspan fill="#A32D2D">以上都需管理 PIN；但不能改动已报名的名单本身</tspan></text>
+  <rect x="566" y="950" width="160" height="140" rx="12" class="ph"/>
+  <path d="M566 962a12 12 0 0 1 12-12h136a12 12 0 0 1 12 12v12H566z" class="phbar"/>
+  <text x="578" y="967" class="pht">← 场次详情</text>
+  <text x="578" y="992" class="mini">队长</text>
+  <rect x="604" y="982" width="44" height="16" rx="8" fill="#E6F1FB"/>
+  <text x="626" y="993" class="bgt" fill="#185FA5" text-anchor="middle">小明</text>
+  <rect x="652" y="982" width="44" height="16" rx="8" fill="#FCEBEB"/>
+  <text x="674" y="993" class="bgt" fill="#A32D2D" text-anchor="middle">阿强</text>
+  <g font-size="9" text-anchor="middle">
+    <rect x="578" y="1014" width="44" height="22" rx="5" fill="#fff" stroke="#cbd5e1"/><text x="600" y="1028" fill="#374151">抽队长</text>
+    <rect x="626" y="1014" width="44" height="22" rx="5" fill="#fff" stroke="#cbd5e1"/><text x="648" y="1028" fill="#374151">编辑</text>
+    <rect x="674" y="1014" width="40" height="22" rx="5" fill="#fff" stroke="#F09595"/><text x="694" y="1028" fill="#A32D2D">删除</text>
+  </g>
+
+  <!-- S6 规则速记 -->
+  <rect x="16" y="1124" width="728" height="152" rx="12" class="card"/>
+  <circle cx="40" cy="1156" r="14" fill="#1D9E75"/><text x="40" y="1161" class="numt">6</text>
+  <text x="64" y="1162" class="h">规则速记</text>
+  <g>
+    <rect x="64" y="1180" width="320" height="40" rx="8" fill="#f3f4f6"/>
+    <text x="78" y="1198" class="s" font-weight="600">PIN</text>
+    <text x="78" y="1214" class="mini">管理 PIN 管整场；个人 PIN 管自己；同场报名 PIN 唯一</text>
+    <rect x="396" y="1180" width="332" height="40" rx="8" fill="#f3f4f6"/>
+    <text x="410" y="1198" class="s" font-weight="600">过期</text>
+    <text x="410" y="1214" class="mini">开赛后自动置灰只读；30 天后自动清除，链接同时失效</text>
+    <rect x="64" y="1228" width="320" height="40" rx="8" fill="#f3f4f6"/>
+    <text x="78" y="1246" class="s" font-weight="600">分享</text>
+    <text x="78" y="1262" class="mini">每场有固定链接，发给朋友点开直接看该场详情</text>
+    <rect x="396" y="1228" width="332" height="40" rx="8" fill="#f3f4f6"/>
+    <text x="410" y="1246" class="s" font-weight="600">候补</text>
+    <text x="410" y="1262" class="mini">满员后报名进候补；有人退出，候补按顺序自动补上</text>
+  </g>
+</svg>
