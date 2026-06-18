@@ -23,6 +23,7 @@ export interface Registration {
   name: string
   position: number
   is_captain: number
+  paid: number
   created_at: number
   status: 'confirmed' | 'waiting'
 }
@@ -79,7 +80,7 @@ export const api = {
   editMatch: (id: string, body: EditBody) => req<{ ok: true }>(`/api/matches/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
   deleteMatch: (id: string, pin: string) => req<{ ok: true }>(`/api/matches/${id}`, { method: 'DELETE', body: JSON.stringify({ pin }) }),
   register: (id: string, name: string, pin: string) => req<{ id: string; position: number }>(`/api/matches/${id}/registrations`, { method: 'POST', body: JSON.stringify({ name, pin }) }),
-  editReg: (mid: string, rid: string, name: string, pin: string) => req<{ ok: true }>(`/api/matches/${mid}/registrations/${rid}`, { method: 'PUT', body: JSON.stringify({ name, pin }) }),
+  editReg: (mid: string, rid: string, name: string, paid: boolean, pin: string) => req<{ ok: true }>(`/api/matches/${mid}/registrations/${rid}`, { method: 'PUT', body: JSON.stringify({ name, paid, pin }) }),
   deleteReg: (mid: string, rid: string, pin: string) => req<{ ok: true }>(`/api/matches/${mid}/registrations/${rid}`, { method: 'DELETE', body: JSON.stringify({ pin }) }),
   drawCaptains: (id: string, pin: string) => req<{ captains: { id: string; name: string }[] }>(`/api/matches/${id}/captains`, { method: 'POST', body: JSON.stringify({ pin }) }),
 }

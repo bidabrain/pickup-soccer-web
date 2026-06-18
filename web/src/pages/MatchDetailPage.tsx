@@ -97,6 +97,7 @@ export default function MatchDetailPage() {
             <span>
               <span className="text-gray-400">{r.position}.</span> {r.name}
               {r.is_captain ? <span className={`ml-2 rounded px-1.5 py-0.5 text-xs ${captainColor(r.id)}`}>队长</span> : null}
+              {r.paid ? <span className="ml-2 rounded bg-emerald-100 px-1.5 py-0.5 text-xs text-emerald-800">已付</span> : null}
             </span>
             {!m.locked && <span className="text-xs text-gray-400">管理</span>}
           </button>
@@ -116,6 +117,7 @@ export default function MatchDetailPage() {
               >
                 <span>
                   <span className="opacity-60">{r.position}.</span> {r.name}
+                  {r.paid ? <span className="ml-2 rounded bg-emerald-100 px-1.5 py-0.5 text-xs text-emerald-800">已付</span> : null}
                 </span>
                 {!m.locked && <span className="text-xs opacity-60">管理</span>}
               </button>
@@ -214,6 +216,7 @@ function RegisterModal({ id, onClose, onDone }: { id: string; onClose: () => voi
 
 function ManageModal({ mid, reg, onClose, onDone }: { mid: string; reg: Registration; onClose: () => void; onDone: () => void }) {
   const [name, setName] = useState(reg.name)
+  const [paid, setPaid] = useState(reg.paid === 1)
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
@@ -223,7 +226,7 @@ function ManageModal({ mid, reg, onClose, onDone }: { mid: string; reg: Registra
     if (pin.length !== 6) return setError('请输入你的 PIN')
     setBusy(true)
     try {
-      await api.editReg(mid, reg.id, name.trim(), pin)
+      await api.editReg(mid, reg.id, name.trim(), paid, pin)
       onDone()
     } catch (e) {
       setError(msgOf(e))
@@ -247,6 +250,18 @@ function ManageModal({ mid, reg, onClose, onDone }: { mid: string; reg: Registra
     <Modal title={`管理报名 · ${reg.name}`} onClose={onClose}>
       <div className="space-y-3">
         <input value={name} onChange={(e) => setName(e.target.value)} placeholder="名字" className={field} />
+        <div className="flex items-center justify-between rounded-lg border border-gray-200 px-3 py-2">
+          <span className="text-sm text-gray-700">已付活动费</span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={paid}
+            onClick={() => setPaid(!paid)}
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition ${paid ? 'bg-emerald-600' : 'bg-gray-300'}`}
+          >
+            <span className={`inline-block h-5 w-5 transform rounded-full bg-white transition ${paid ? 'translate-x-5' : 'translate-x-1'}`} />
+          </button>
+        </div>
         <PinInput value={pin} onChange={setPin} label="输入你报名时设置的 PIN" autoFocus />
         {error && <p className="text-sm text-red-600">{error}</p>}
         <button onClick={save} disabled={busy} className={primaryBtn}>

@@ -200,7 +200,7 @@ async function getMatch(env: Env, id: string): Promise<Response> {
   if (!m) return err('NOT_FOUND', 404)
 
   const { results } = await env.DB.prepare(
-    `SELECT id,name,position,is_captain,created_at
+    `SELECT id,name,position,is_captain,paid,created_at
        FROM registrations WHERE match_id = ? ORDER BY position ASC`
   ).bind(id).all()
 
@@ -313,6 +313,7 @@ async function editReg(req: Request, env: Env, mid: string, rid: string, ip: str
   if (!b) return err('VALIDATION', 400, 'invalid json')
   const pin = String(b.pin ?? '')
   const name = String(b.name ?? '').trim()
+  const paid = b.paid ? 1 : 0
   if (!name) return err('VALIDATION', 400, 'name required')
 
   const r = (await env.DB.prepare(
@@ -326,7 +327,7 @@ async function editReg(req: Request, env: Env, mid: string, rid: string, ip: str
   const bad = await guardPin(env, ip, mid, pin, r.pin_hash)
   if (bad) return bad
 
-  await env.DB.prepare('UPDATE registrations SET name = ? WHERE id = ?').bind(name, rid).run()
+  await env.DB.prepare('UPDATE registrations SET name = ?, paid = ? WHERE id = ?').bind(name, paid, rid).run()
   return json({ ok: true })
 }
 

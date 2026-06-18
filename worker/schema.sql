@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS registrations (
   pin_lookup  TEXT    NOT NULL,                  -- HMAC，用于同场判重
   position    INTEGER NOT NULL,                  -- 报名顺序 1..n
   is_captain  INTEGER NOT NULL DEFAULT 0,
+  paid        INTEGER NOT NULL DEFAULT 0,        -- 已付活动费（本人开关，默认 0）
   created_at  INTEGER NOT NULL,
   UNIQUE(match_id, pin_lookup)                   -- 同场 PIN 判重
 );
