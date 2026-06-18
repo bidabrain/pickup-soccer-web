@@ -1,0 +1,14 @@
+name = "pickup-soccer-api"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+# D1 绑定：代码里通过 env.DB 访问
+# account_id 故意不写死，wrangler 会从已登录账户自动推断（避免进公开 repo）
+[[d1_databases]]
+binding = "DB"
+database_name = "pickup-soccer"
+database_id = "ef7b7eff-bead-4ff5-b6bf-68e020e828dd"
+
+# 每日 03:00 UTC 清理 start_utc 超过 30 天的场次（级联删报名）
+[triggers]
+crons = ["0 3 * * *"]

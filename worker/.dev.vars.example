@@ -1,0 +1,5 @@
+# 本地密钥模板。复制为 .dev.vars 后填入真实值（.dev.vars 已被 .gitignore 排除）。
+# 线上用 `wrangler secret put NAME` 设置，绝不提交到 repo。
+
+# 可选：全局额外盐，增强 HMAC 判重抗拖库能力（M2 启用）
+# HMAC_PEPPER=replace-with-a-long-random-string
