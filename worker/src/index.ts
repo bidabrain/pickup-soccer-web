@@ -287,23 +287,25 @@ async function register(req: Request, env: Env, matchId: string, ip: string): Pr
 
   const lookup = await pinLookup(pin, m.match_secret)
   const pin_hash = await hashPin(pin)
-  const row = (await env.DB.prepare(
-    'SELECT COALESCE(MAX(position),0)+1 AS pos FROM registrations WHERE match_id = ?'
-  ).bind(matchId).first()) as { pos: number }
   const id = crypto.randomUUID()
 
+  // 单条 INSERT...SELECT 原子地算出 position 并插入：D1 写串行化下并发报名不会撞号
+  let position: number
   try {
-    await env.DB.prepare(
-      `INSERT INTO registrations (id,match_id,name,pin_hash,pin_lookup,position,is_captain,created_at)
-       VALUES (?,?,?,?,?,?,0,?)`
-    ).bind(id, matchId, name, pin_hash, lookup, row.pos, Date.now()).run()
+    const inserted = (await env.DB.prepare(
+      `INSERT INTO registrations (id, match_id, name, pin_hash, pin_lookup, position, is_captain, created_at)
+       SELECT ?, ?, ?, ?, ?, COALESCE(MAX(position), 0) + 1, 0, ?
+         FROM registrations WHERE match_id = ?
+       RETURNING position`
+    ).bind(id, matchId, name, pin_hash, lookup, Date.now(), matchId).first()) as { position: number } | null
+    position = inserted?.position ?? 1
   } catch (e) {
     if (e instanceof Error && e.message.includes('UNIQUE')) {
       return err('PIN_DUPLICATE', 409, 'pin already used in this match')
     }
     throw e
   }
-  return json({ id, position: row.pos }, 201)
+  return json({ id, position }, 201)
 }
 
 async function editReg(req: Request, env: Env, mid: string, rid: string, ip: string): Promise<Response> {
