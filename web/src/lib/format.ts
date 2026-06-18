@@ -28,10 +28,14 @@ export function tzLabel(timezone: string, startUtc: number): string {
   }
 }
 
-// 某时区的「今天」(YYYY-MM-DD)
+// 某时区的「今天」(YYYY-MM-DD)。非法时区时回退到本地，避免抛异常导致白屏
 export function todayInTZ(timezone: string): string {
-  return new Intl.DateTimeFormat('en-CA', { timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit' })
-    .format(new Date())
+  try {
+    return new Intl.DateTimeFormat('en-CA', { timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit' })
+      .format(new Date())
+  } catch {
+    return new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date())
+  }
 }
 
 // 今天起 8 个日期（含今天，共 7 天窗口内）

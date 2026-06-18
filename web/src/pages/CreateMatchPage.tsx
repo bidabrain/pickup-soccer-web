@@ -13,6 +13,16 @@ const TIMEZONES: string[] = (() => {
   }
 })()
 
+// 按地区(Asia/America/Europe…)分组，给 <select> 用 optgroup 展示
+const TZ_GROUPS: [string, string[]][] = (() => {
+  const groups: Record<string, string[]> = {}
+  for (const tz of TIMEZONES) {
+    const region = tz.includes('/') ? tz.split('/')[0] : 'Other'
+    ;(groups[region] ??= []).push(tz)
+  }
+  return Object.entries(groups)
+})()
+
 export default function CreateMatchPage() {
   const navigate = useNavigate()
   const [timezone, setTimezone] = useState('Asia/Seoul')
@@ -66,18 +76,18 @@ export default function CreateMatchPage() {
 
       <main className="mx-auto max-w-md space-y-4 p-4">
         <div>
-          <label className="mb-1 block text-xs text-gray-500">时区</label>
-          <input
-            list="tz-list"
-            value={timezone}
-            onChange={(e) => setTimezone(e.target.value)}
-            className={field}
-          />
-          <datalist id="tz-list">
-            {TIMEZONES.map((tz) => (
-              <option key={tz} value={tz} />
+          <label className="mb-1 block text-xs text-gray-500">时区（默认韩国 KST）</label>
+          <select value={timezone} onChange={(e) => setTimezone(e.target.value)} className={field}>
+            {TZ_GROUPS.map(([region, zones]) => (
+              <optgroup key={region} label={region}>
+                {zones.map((tz) => (
+                  <option key={tz} value={tz}>
+                    {tz}
+                  </option>
+                ))}
+              </optgroup>
             ))}
-          </datalist>
+          </select>
         </div>
 
         <div>
