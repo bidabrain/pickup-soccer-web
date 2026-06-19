@@ -6,7 +6,7 @@
 
 ## 使用说明
 
-![Pickup Football 使用说明](docs/usage-guide.svg)
+![Pickup Football 使用说明](web/public/usage-guide.svg)
 
 ## 技术栈
 

@@ -6,9 +6,6 @@ on:
     paths-ignore:
       - '**.md'
       - '.gitignore'
-      - 'docs/**'
-      - '**.svg'
-      - '**.png'
   workflow_dispatch:
 
 permissions:

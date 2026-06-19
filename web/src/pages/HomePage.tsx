@@ -7,6 +7,7 @@ export default function HomePage() {
   const navigate = useNavigate()
   const [matches, setMatches] = useState<MatchListItem[] | null>(null)
   const [error, setError] = useState('')
+  const [showGuide, setShowGuide] = useState(false)
 
   useEffect(() => {
     api.listMatches().then(setMatches).catch((e) => setError(msgOf(e)))
@@ -14,9 +15,34 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-emerald-800 px-4 py-4">
+      <header className="flex items-center justify-between bg-emerald-800 px-4 py-4">
         <span className="text-lg font-medium text-white">Pickup Football</span>
+        <button
+          onClick={() => setShowGuide(true)}
+          className="rounded-lg bg-emerald-700 px-3 py-1.5 text-sm text-white hover:bg-emerald-600"
+        >
+          使用说明
+        </button>
       </header>
+
+      {showGuide && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-black/60 p-4" onClick={() => setShowGuide(false)}>
+          <div
+            className="mx-auto flex max-h-full w-full max-w-md flex-col overflow-hidden rounded-xl bg-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+              <span className="font-medium text-gray-900">使用说明</span>
+              <button onClick={() => setShowGuide(false)} aria-label="关闭" className="text-xl leading-none text-gray-400 hover:text-gray-600">
+                &times;
+              </button>
+            </div>
+            <div className="overflow-auto p-3">
+              <img src={`${import.meta.env.BASE_URL}usage-guide.svg`} alt="Pickup Football 使用说明" className="w-full" />
+            </div>
+          </div>
+        </div>
+      )}
 
       <main className="mx-auto max-w-md p-4 pb-24">
         <p className="mb-3 text-sm text-gray-500">当前预约场次</p>
