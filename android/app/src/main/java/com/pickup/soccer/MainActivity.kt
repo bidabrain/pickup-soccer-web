@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
+    private var lastResumeLoadTime = 0L
 
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -50,6 +51,16 @@ class MainActivity : AppCompatActivity() {
         })
 
         handleDeepLink(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 后台超过 30 秒回来才重载，避免切个输入法也刷新
+        val now = System.currentTimeMillis()
+        if (now - lastResumeLoadTime > 30_000) {
+            webView.reload()
+            lastResumeLoadTime = now
+        }
     }
 
     override fun onNewIntent(intent: Intent) {

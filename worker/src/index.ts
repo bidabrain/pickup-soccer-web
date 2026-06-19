@@ -9,7 +9,7 @@ import { notifyTopic } from './notify'
 
 export interface Env {
   DB: D1Database
-  FIREBASE_SERVER_KEY?: string
+  FIREBASE_SERVICE_ACCOUNT?: string
 }
 
 const DAY = 86400000
@@ -193,7 +193,7 @@ async function createMatch(req: Request, env: Env, ip: string): Promise<Response
 
   // 通知：推送「新场次」给订阅了 pickup_new_matches topic 的 App 用户
   notifyTopic(
-    env.FIREBASE_SERVER_KEY,
+    env.FIREBASE_SERVICE_ACCOUNT,
     'pickup_new_matches',
     '⚽ 新约球场次',
     `${date} ${time} · ${venue}`,
@@ -259,7 +259,7 @@ async function editMatch(req: Request, env: Env, id: string, ip: string): Promis
 
   // 通知：推送场次更新给已报名该场的 App 用户
   notifyTopic(
-    env.FIREBASE_SERVER_KEY,
+    env.FIREBASE_SERVICE_ACCOUNT,
     `pickup_match_${id}`,
     '📝 场次信息已更新',
     `${m.date} · ${venue} 的场次有变动，请查看详情`,
@@ -294,7 +294,7 @@ async function deleteMatch(req: Request, env: Env, id: string, ip: string): Prom
   // 通知：推送场次取消给已报名该场的 App 用户
   if (mInfo) {
     notifyTopic(
-      env.FIREBASE_SERVER_KEY,
+      env.FIREBASE_SERVICE_ACCOUNT,
       `pickup_match_${id}`,
       '❌ 场次已取消',
       `${mInfo.date} · ${mInfo.venue} 的场次已被组织者取消`,
@@ -406,7 +406,7 @@ async function deleteReg(req: Request, env: Env, mid: string, rid: string, ip: s
   // 若确认名额被释放且存在候补，推送转正通知
   if (wasConfirmed && hasWaiting && match) {
     notifyTopic(
-      env.FIREBASE_SERVER_KEY,
+      env.FIREBASE_SERVICE_ACCOUNT,
       `pickup_match_${mid}`,
       '🎉 候补名单有变动',
       `${match.date} · ${match.venue} 有名额空出，候补名单第一位已转为确认上场`,
