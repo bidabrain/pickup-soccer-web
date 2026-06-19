@@ -5,9 +5,11 @@
 import { hashPin, verifyPin, pinLookup, randomSecret } from './crypto'
 import { wallTimeToUtcMs, todayInTZ, addDaysISO } from './time'
 import { rateCheck, rateBump, rateConsume } from './ratelimit'
+import { notifyTopic } from './notify'
 
 export interface Env {
   DB: D1Database
+  FIREBASE_SERVER_KEY?: string
 }
 
 const DAY = 86400000
@@ -189,6 +191,15 @@ async function createMatch(req: Request, env: Env, ip: string): Promise<Response
   ).bind(id, date, time, timezone, start_utc, venue, fee, max_players, note,
          organizer_pin_hash, match_secret, Date.now()).run()
 
+  // 通知：推送「新场次」给订阅了 pickup_new_matches topic 的 App 用户
+  notifyTopic(
+    env.FIREBASE_SERVER_KEY,
+    'pickup_new_matches',
+    '⚽ 新约球场次',
+    `${date} ${time} · ${venue}`,
+    { type: 'new_match', matchId: id }
+  )
+
   return json({ id }, 201)
 }
 
@@ -246,6 +257,15 @@ async function editMatch(req: Request, env: Env, id: string, ip: string): Promis
     'UPDATE matches SET time=?,venue=?,fee=?,max_players=?,note=?,start_utc=? WHERE id=?'
   ).bind(time, venue, fee, max_players, note, start_utc, id).run()
 
+  // 通知：推送场次更新给已报名该场的 App 用户
+  notifyTopic(
+    env.FIREBASE_SERVER_KEY,
+    `pickup_match_${id}`,
+    '📝 场次信息已更新',
+    `${m.date} · ${venue} 的场次有变动，请查看详情`,
+    { type: 'change', matchId: id }
+  )
+
   return json({ ok: true })
 }
 
@@ -262,10 +282,26 @@ async function deleteMatch(req: Request, env: Env, id: string, ip: string): Prom
   const bad = await guardPin(env, ip, id, pin, m.organizer_pin_hash)
   if (bad) return bad
 
+  // 先拿场次信息用于通知文案
+  const mInfo = (await env.DB.prepare('SELECT date, venue FROM matches WHERE id = ?')
+    .bind(id).first()) as { date: string; venue: string } | null
+
   await env.DB.batch([
     env.DB.prepare('DELETE FROM registrations WHERE match_id = ?').bind(id),
     env.DB.prepare('DELETE FROM matches WHERE id = ?').bind(id),
   ])
+
+  // 通知：推送场次取消给已报名该场的 App 用户
+  if (mInfo) {
+    notifyTopic(
+      env.FIREBASE_SERVER_KEY,
+      `pickup_match_${id}`,
+      '❌ 场次已取消',
+      `${mInfo.date} · ${mInfo.venue} 的场次已被组织者取消`,
+      { type: 'cancel', matchId: id }
+    )
+  }
+
   return json({ ok: true })
 }
 
@@ -347,7 +383,37 @@ async function deleteReg(req: Request, env: Env, mid: string, rid: string, ip: s
   const bad = await guardPin(env, ip, mid, pin, r.pin_hash)
   if (bad) return bad
 
+  // 删除前检查：若删除的是「确认上场」名额，候补名单中第一位将转正
+  const match = (await env.DB.prepare(
+    'SELECT max_players, date, venue FROM matches WHERE id = ?'
+  ).bind(mid).first()) as { max_players: number; date: string; venue: string } | null
+
+  // 计算被删除报名的排名（按 position 升序第几位）
+  const rankRow = (await env.DB.prepare(
+    'SELECT COUNT(*) + 1 AS rank FROM registrations WHERE match_id = ? AND position < (SELECT position FROM registrations WHERE id = ?)'
+  ).bind(mid, rid).first()) as { rank: number } | null
+
+  const wasConfirmed = match && rankRow && rankRow.rank <= match.max_players
+
+  // 删除前统计是否有候补
+  const totalRow = (await env.DB.prepare(
+    'SELECT COUNT(*) AS total FROM registrations WHERE match_id = ?'
+  ).bind(mid).first()) as { total: number } | null
+  const hasWaiting = match && totalRow && totalRow.total > match.max_players
+
   await env.DB.prepare('DELETE FROM registrations WHERE id = ?').bind(rid).run()
+
+  // 若确认名额被释放且存在候补，推送转正通知
+  if (wasConfirmed && hasWaiting && match) {
+    notifyTopic(
+      env.FIREBASE_SERVER_KEY,
+      `pickup_match_${mid}`,
+      '🎉 候补名单有变动',
+      `${match.date} · ${match.venue} 有名额空出，候补名单第一位已转为确认上场`,
+      { type: 'promotion', matchId: mid }
+    )
+  }
+
   return json({ ok: true })
 }
 

@@ -1,0 +1,32 @@
+{
+  "_comment": "将此文件复制为 google-services.json 并填入你的 Firebase 项目信息。",
+  "_howto": [
+    "1. 前往 https://console.firebase.google.com/ 创建项目（或使用已有项目）",
+    "2. 添加 Android 应用，包名填 com.pickup.soccer",
+    "3. 下载 google-services.json 放到本目录（android/app/）",
+    "4. 在 Firebase 控制台 → 项目设置 → 云消息传递，复制「服务器密钥」",
+    "5. 在 Cloudflare Worker 执行: wrangler secret put FIREBASE_SERVER_KEY"
+  ],
+  "project_info": {
+    "project_number": "YOUR_PROJECT_NUMBER",
+    "project_id": "YOUR_PROJECT_ID",
+    "storage_bucket": "YOUR_PROJECT_ID.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:YOUR_PROJECT_NUMBER:android:XXXXXXXX",
+        "android_client_info": {
+          "package_name": "com.pickup.soccer"
+        }
+      },
+      "api_key": [{ "current_key": "YOUR_API_KEY" }],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

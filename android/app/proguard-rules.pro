@@ -1,0 +1,2 @@
+-keep class com.pickup.soccer.WebAppInterface { *; }
+-keepattributes JavascriptInterface

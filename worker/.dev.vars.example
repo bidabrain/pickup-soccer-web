@@ -3,3 +3,9 @@
 
 # 可选：全局额外盐，增强 HMAC 判重抗拖库能力（M2 启用）
 # HMAC_PEPPER=replace-with-a-long-random-string
+
+# Android 推送通知（Firebase Cloud Messaging）
+# 获取方式：Firebase 控制台 → 项目设置 → 云消息传递 → 服务器密钥（Legacy API key）
+# 线上部署后执行：wrangler secret put FIREBASE_SERVER_KEY
+# 不填则静默跳过推送，不影响其他功能
+# FIREBASE_SERVER_KEY=AAAAxxxxxxxx:APA91bXXXXXX...

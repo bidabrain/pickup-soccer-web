@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:key="notifications_enabled"
+        app:title="通知总开关"
+        app:summaryOn="推送通知已开启"
+        app:summaryOff="推送通知已关闭"
+        app:defaultValue="true"
+        app:iconSpaceReserved="false" />
+
+    <PreferenceCategory
+        app:title="通知类型"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:key="notify_new_match"
+            app:title="新创建预约通知"
+            app:summary="有新场次发布时通知我"
+            app:defaultValue="true"
+            app:dependency="notifications_enabled"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            app:key="notify_changes"
+            app:title="场次更变 / 取消通知"
+            app:summary="我报名的场次信息有改动或被取消时通知我"
+            app:defaultValue="true"
+            app:dependency="notifications_enabled"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            app:key="notify_promotion"
+            app:title="候补转正通知"
+            app:summary="候补名单有变动，可能升级为确认参赛时通知我"
+            app:defaultValue="true"
+            app:dependency="notifications_enabled"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            app:key="notify_pre_match"
+            app:title="开赛前提醒"
+            app:summary="比赛开始前 2 小时提醒我"
+            app:defaultValue="true"
+            app:dependency="notifications_enabled"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
