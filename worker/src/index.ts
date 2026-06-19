@@ -58,7 +58,7 @@ function pickTwo<T>(arr: T[]): [T, T] {
 }
 
 export default {
-  async fetch(req: Request, env: Env): Promise<Response> {
+  async fetch(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const cors = corsHeaders(req)
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors })
 
@@ -68,7 +68,7 @@ export default {
 
     let res: Response
     try {
-      res = await route(req, env, path, ip)
+      res = await route(req, env, ctx, path, ip)
     } catch (e) {
       res = err('INTERNAL', 500, e instanceof Error ? e.message : String(e))
     }
@@ -87,17 +87,17 @@ export default {
   },
 }
 
-async function route(req: Request, env: Env, path: string, ip: string): Promise<Response> {
+async function route(req: Request, env: Env, ctx: ExecutionContext, path: string, ip: string): Promise<Response> {
   if (req.method === 'GET' && path === '/api/health') return json({ ok: true })
   if (req.method === 'GET' && path === '/api/matches') return listMatches(env)
-  if (req.method === 'POST' && path === '/api/matches') return createMatch(req, env, ip)
+  if (req.method === 'POST' && path === '/api/matches') return createMatch(req, env, ctx, ip)
 
   const detail = path.match(/^\/api\/matches\/([^/]+)$/)
   if (detail) {
     const id = detail[1]
     if (req.method === 'GET') return getMatch(env, id)
-    if (req.method === 'PUT') return editMatch(req, env, id, ip)
-    if (req.method === 'DELETE') return deleteMatch(req, env, id, ip)
+    if (req.method === 'PUT') return editMatch(req, env, ctx, id, ip)
+    if (req.method === 'DELETE') return deleteMatch(req, env, ctx, id, ip)
   }
 
   const regList = path.match(/^\/api\/matches\/([^/]+)\/registrations$/)
@@ -107,7 +107,7 @@ async function route(req: Request, env: Env, path: string, ip: string): Promise<
   if (regItem) {
     const [, mid, rid] = regItem
     if (req.method === 'PUT') return editReg(req, env, mid, rid, ip)
-    if (req.method === 'DELETE') return deleteReg(req, env, mid, rid, ip)
+    if (req.method === 'DELETE') return deleteReg(req, env, ctx, mid, rid, ip)
   }
 
   const captains = path.match(/^\/api\/matches\/([^/]+)\/captains$/)
@@ -149,7 +149,7 @@ async function listMatches(env: Env): Promise<Response> {
   return json(list)
 }
 
-async function createMatch(req: Request, env: Env, ip: string): Promise<Response> {
+async function createMatch(req: Request, env: Env, ctx: ExecutionContext, ip: string): Promise<Response> {
   if (!(await rateConsume(env, `create:${ip}`, 10, 60000))) return err('RATE_LIMITED', 429)
 
   const b = (await req.json().catch(() => null)) as Record<string, unknown> | null
@@ -192,13 +192,13 @@ async function createMatch(req: Request, env: Env, ip: string): Promise<Response
          organizer_pin_hash, match_secret, Date.now()).run()
 
   // 通知：推送「新场次」给订阅了 pickup_new_matches topic 的 App 用户
-  notifyTopic(
+  ctx.waitUntil(notifyTopic(
     env.FIREBASE_SERVICE_ACCOUNT,
     'pickup_new_matches',
     '⚽ 新约球场次',
     `${date} ${time} · ${venue}`,
     { type: 'new_match', matchId: id }
-  )
+  ))
 
   return json({ id }, 201)
 }
@@ -223,7 +223,7 @@ async function getMatch(env: Env, id: string): Promise<Response> {
   return json({ ...m, locked: Date.now() > m.start_utc, registrations })
 }
 
-async function editMatch(req: Request, env: Env, id: string, ip: string): Promise<Response> {
+async function editMatch(req: Request, env: Env, ctx: ExecutionContext, id: string, ip: string): Promise<Response> {
   const b = (await req.json().catch(() => null)) as Record<string, unknown> | null
   if (!b) return err('VALIDATION', 400, 'invalid json')
   const pin = String(b.pin ?? '')
@@ -258,18 +258,18 @@ async function editMatch(req: Request, env: Env, id: string, ip: string): Promis
   ).bind(time, venue, fee, max_players, note, start_utc, id).run()
 
   // 通知：推送场次更新给已报名该场的 App 用户
-  notifyTopic(
+  ctx.waitUntil(notifyTopic(
     env.FIREBASE_SERVICE_ACCOUNT,
     `pickup_match_${id}`,
     '📝 场次信息已更新',
     `${m.date} · ${venue} 的场次有变动，请查看详情`,
     { type: 'change', matchId: id }
-  )
+  ))
 
   return json({ ok: true })
 }
 
-async function deleteMatch(req: Request, env: Env, id: string, ip: string): Promise<Response> {
+async function deleteMatch(req: Request, env: Env, ctx: ExecutionContext, id: string, ip: string): Promise<Response> {
   const b = (await req.json().catch(() => null)) as Record<string, unknown> | null
   if (!b) return err('VALIDATION', 400, 'invalid json')
   const pin = String(b.pin ?? '')
@@ -293,13 +293,13 @@ async function deleteMatch(req: Request, env: Env, id: string, ip: string): Prom
 
   // 通知：推送场次取消给已报名该场的 App 用户
   if (mInfo) {
-    notifyTopic(
+    ctx.waitUntil(notifyTopic(
       env.FIREBASE_SERVICE_ACCOUNT,
       `pickup_match_${id}`,
       '❌ 场次已取消',
       `${mInfo.date} · ${mInfo.venue} 的场次已被组织者取消`,
       { type: 'cancel', matchId: id }
-    )
+    ))
   }
 
   return json({ ok: true })
@@ -367,7 +367,7 @@ async function editReg(req: Request, env: Env, mid: string, rid: string, ip: str
   return json({ ok: true })
 }
 
-async function deleteReg(req: Request, env: Env, mid: string, rid: string, ip: string): Promise<Response> {
+async function deleteReg(req: Request, env: Env, ctx: ExecutionContext, mid: string, rid: string, ip: string): Promise<Response> {
   const b = (await req.json().catch(() => null)) as Record<string, unknown> | null
   if (!b) return err('VALIDATION', 400, 'invalid json')
   const pin = String(b.pin ?? '')
@@ -405,13 +405,13 @@ async function deleteReg(req: Request, env: Env, mid: string, rid: string, ip: s
 
   // 若确认名额被释放且存在候补，推送转正通知
   if (wasConfirmed && hasWaiting && match) {
-    notifyTopic(
+    ctx.waitUntil(notifyTopic(
       env.FIREBASE_SERVICE_ACCOUNT,
       `pickup_match_${mid}`,
       '🎉 候补名单有变动',
       `${match.date} · ${match.venue} 有名额空出，候补名单第一位已转为确认上场`,
       { type: 'promotion', matchId: mid }
-    )
+    ))
   }
 
   return json({ ok: true })

@@ -61,13 +61,19 @@ export async function notifyTopic(
   body: string,
   data: Record<string, string> = {}
 ): Promise<void> {
-  if (!serviceAccountJson) return
+  if (!serviceAccountJson) {
+    console.log('[FCM] FIREBASE_SERVICE_ACCOUNT not set, skipping')
+    return
+  }
 
   await (async () => {
     const sa = JSON.parse(serviceAccountJson) as ServiceAccount
-    const token = await getAccessToken(sa)
+    console.log(`[FCM] sending to topic=${topic}, project=${sa.project_id}`)
 
-    await fetch(
+    const token = await getAccessToken(sa)
+    console.log('[FCM] access token obtained')
+
+    const resp = await fetch(
       `https://fcm.googleapis.com/v1/projects/${sa.project_id}/messages:send`,
       {
         method: 'POST',
@@ -85,5 +91,7 @@ export async function notifyTopic(
         }),
       }
     )
-  })().catch(() => {}) // fire-and-forget，失败不影响主流程
+    const respText = await resp.text()
+    console.log(`[FCM] response status=${resp.status} body=${respText}`)
+  })().catch((e) => console.error('[FCM] error:', e)) // 失败不影响主流程
 }
