@@ -6,7 +6,9 @@
 
 ## 使用说明
 
-![Pickup Football 使用说明](web/public/usage-guide.svg)
+![Pickup Football 使用说明](web/public/usage-guide-zh.svg)
+
+> 网站内「使用说明」按钮会按界面语言显示对应版本（[English](web/public/usage-guide-en.svg) · [한국어](web/public/usage-guide-ko.svg)）。
 
 ## 技术栈
 

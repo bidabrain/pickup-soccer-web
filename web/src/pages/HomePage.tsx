@@ -7,7 +7,7 @@ import LanguageSwitcher from '../components/LanguageSwitcher'
 
 export default function HomePage() {
   const navigate = useNavigate()
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
   const [matches, setMatches] = useState<MatchListItem[] | null>(null)
   const [error, setError] = useState('')
   const [showGuide, setShowGuide] = useState(false)
@@ -45,7 +45,7 @@ export default function HomePage() {
               </button>
             </div>
             <div className="overflow-auto p-3">
-              <img src={`${import.meta.env.BASE_URL}usage-guide.svg`} alt={t('nav.guide')} className="w-full" />
+              <img src={`${import.meta.env.BASE_URL}usage-guide-${lang}.svg`} alt={t('nav.guide')} className="w-full" />
             </div>
           </div>
         </div>

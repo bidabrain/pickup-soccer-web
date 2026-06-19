@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" viewBox="0 0 760 1244">
+<rect width="760" height="1244" fill="#ffffff"/>
+<rect x="16" y="16" width="728" height="104" rx="14" fill="#0F6E56"/>
+<text x="40" y="58" font-size="22" font-weight="600" fill="#ffffff">Pickup Football Guide</text>
+<text x="40" y="84" font-size="13" fill="#bfe6d8">No sign-up · manage with a PIN</text>
+<text x="40" y="104" font-size="12" fill="#9FE1CB">bidabrain.github.io/pickup-soccer-web</text>
+<rect x="16" y="136" width="728" height="182" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+<circle cx="40" cy="160" r="13" fill="#1D9E75"/><text x="40" y="165" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">1</text>
+<text x="64" y="166" font-size="16" font-weight="600" fill="#0b3d33">Home · browse matches</text>
+<text x="40" y="190" font-size="13" font-weight="600" fill="#1D9E75">①</text>
+<text x="64" y="190" font-size="13" fill="#374151">Open the site to see all matches — no login needed</text>
+<text x="40" y="214" font-size="13" font-weight="600" fill="#1D9E75">②</text>
+<text x="64" y="214" font-size="13" fill="#374151">Badge shows status: more needed / full+waiting / ended (gray)</text>
+<text x="40" y="238" font-size="13" font-weight="600" fill="#1D9E75">③</text>
+<text x="64" y="238" font-size="13" fill="#374151">Tap a card for details; tap Share to copy its link</text>
+<text x="40" y="262" font-size="13" font-weight="600" fill="#1D9E75">④</text>
+<text x="64" y="262" font-size="13" fill="#374151">Tap + at the bottom-right to create a match</text>
+<text x="40" y="286" font-size="13" font-weight="600" fill="#1D9E75">⑤</text>
+<text x="64" y="286" font-size="13" fill="#374151">Switch language at the top-right: 中文 / English / 한국어</text>
+<rect x="16" y="332" width="728" height="158" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+<circle cx="40" cy="356" r="13" fill="#1D9E75"/><text x="40" y="361" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">2</text>
+<text x="64" y="362" font-size="16" font-weight="600" fill="#0b3d33">Create a match</text>
+<text x="40" y="386" font-size="13" font-weight="600" fill="#1D9E75">①</text>
+<text x="64" y="386" font-size="13" fill="#374151">Pick timezone (default KST) and date (within 7 days from today)</text>
+<text x="40" y="410" font-size="13" font-weight="600" fill="#1D9E75">②</text>
+<text x="64" y="410" font-size="13" fill="#374151">Fill time, venue, fee per person (₩), players; note optional</text>
+<text x="40" y="434" font-size="13" font-weight="600" fill="#1D9E75">③</text>
+<text x="64" y="434" font-size="13" fill="#374151">Set a 6-digit manager PIN — needed to edit/delete this match later</text>
+<text x="40" y="458" font-size="13" font-weight="600" fill="#1D9E75">④</text>
+<text x="64" y="458" font-size="13" fill="#374151">Tap Create match; it appears on the home list</text>
+<rect x="16" y="504" width="728" height="182" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+<circle cx="40" cy="528" r="13" fill="#1D9E75"/><text x="40" y="533" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">3</text>
+<text x="64" y="534" font-size="16" font-weight="600" fill="#0b3d33">Sign up</text>
+<text x="40" y="558" font-size="13" font-weight="600" fill="#1D9E75">①</text>
+<text x="64" y="558" font-size="13" fill="#374151">Open a match, tap Sign up</text>
+<text x="40" y="582" font-size="13" font-weight="600" fill="#1D9E75">②</text>
+<text x="64" y="582" font-size="13" fill="#374151">Enter your name + set a 6-digit personal PIN</text>
+<text x="40" y="606" font-size="13" font-weight="600" fill="#1D9E75">③</text>
+<text x="64" y="606" font-size="13" fill="#374151">Your PIN must be unique within this match (duplicates are rejected)</text>
+<text x="40" y="630" font-size="13" font-weight="600" fill="#1D9E75">④</text>
+<text x="64" y="630" font-size="13" fill="#374151">Once full, later sign-ups go to the waiting list automatically</text>
+<text x="40" y="654" font-size="13" font-weight="600" fill="#1D9E75">⑤</text>
+<text x="64" y="654" font-size="13" fill="#374151">You can sign up several friends (each a unique name + PIN)</text>
+<rect x="16" y="700" width="728" height="182" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+<circle cx="40" cy="724" r="13" fill="#1D9E75"/><text x="40" y="729" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">4</text>
+<text x="64" y="730" font-size="16" font-weight="600" fill="#0b3d33">Manage my sign-up</text>
+<text x="40" y="754" font-size="13" font-weight="600" fill="#1D9E75">①</text>
+<text x="64" y="754" font-size="13" fill="#374151">Tap your own name in the list</text>
+<text x="40" y="778" font-size="13" font-weight="600" fill="#1D9E75">②</text>
+<text x="64" y="778" font-size="13" fill="#374151">Enter the PIN you set when signing up</text>
+<text x="40" y="802" font-size="13" font-weight="600" fill="#1D9E75">③</text>
+<text x="64" y="802" font-size="13" fill="#374151">Edit your name, or remove your sign-up</text>
+<text x="40" y="826" font-size="13" font-weight="600" fill="#1D9E75">④</text>
+<text x="64" y="826" font-size="13" fill="#374151">Toggle "Activity fee paid" and save — a green "Paid" tag shows in the list</text>
+<text x="40" y="850" font-size="13" font-weight="600" fill="#b91c1c">!</text>
+<text x="64" y="850" font-size="13" fill="#b91c1c">Wrong PIN 10 times locks for ~10 minutes (anti guessing)</text>
+<rect x="16" y="896" width="728" height="158" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+<circle cx="40" cy="920" r="13" fill="#1D9E75"/><text x="40" y="925" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">5</text>
+<text x="64" y="926" font-size="16" font-weight="600" fill="#0b3d33">Organizer tools (manager PIN)</text>
+<text x="40" y="950" font-size="13" font-weight="600" fill="#1D9E75">①</text>
+<text x="64" y="950" font-size="13" fill="#374151">Edit match: change time/venue/fee/size; the date is locked</text>
+<text x="40" y="974" font-size="13" font-weight="600" fill="#1D9E75">②</text>
+<text x="64" y="974" font-size="13" fill="#374151">Delete match: only before start; removes all sign-ups, with confirm</text>
+<text x="40" y="998" font-size="13" font-weight="600" fill="#1D9E75">③</text>
+<text x="64" y="998" font-size="13" fill="#374151">Draw 2 random captains (marked blue/red, can redraw)</text>
+<text x="40" y="1022" font-size="13" font-weight="600" fill="#b91c1c">!</text>
+<text x="64" y="1022" font-size="13" fill="#b91c1c">All need the manager PIN; the roster itself cannot be edited</text>
+<rect x="16" y="1068" width="728" height="158" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+<circle cx="40" cy="1092" r="13" fill="#1D9E75"/><text x="40" y="1097" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">6</text>
+<text x="64" y="1098" font-size="16" font-weight="600" fill="#0b3d33">Quick rules</text>
+<text x="40" y="1122" font-size="13" font-weight="600" fill="#9ca3af">•</text>
+<text x="64" y="1122" font-size="13" fill="#374151">PIN: manager PIN runs the match; personal PIN is yours; unique per match</text>
+<text x="40" y="1146" font-size="13" font-weight="600" fill="#9ca3af">•</text>
+<text x="64" y="1146" font-size="13" fill="#374151">Expiry: gray &amp; read-only after start; auto-deleted after 30 days, link dies too</text>
+<text x="40" y="1170" font-size="13" font-weight="600" fill="#9ca3af">•</text>
+<text x="64" y="1170" font-size="13" fill="#374151">Share: each match has a fixed link to send to friends</text>
+<text x="40" y="1194" font-size="13" font-weight="600" fill="#9ca3af">•</text>
+<text x="64" y="1194" font-size="13" fill="#374151">Waiting: join the list when full; auto-promoted when someone leaves</text>
+</svg>
