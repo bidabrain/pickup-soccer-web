@@ -1,20 +1,18 @@
-const WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
-
-function weekday(iso: string): string {
+function weekday(iso: string, locale: string): string {
   const [Y, M, D] = iso.split('-').map(Number)
-  return WEEKDAYS[new Date(Date.UTC(Y, M - 1, D)).getUTCDay()]
+  return new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(Y, M - 1, D)))
 }
 
-// "周三 6/19 · 19:00"
-export function whenLabel(date: string, time: string): string {
+// "周三 6/19 · 19:00"（周几按语言本地化）
+export function whenLabel(date: string, time: string, locale = 'zh-CN'): string {
   const [, M, D] = date.split('-').map(Number)
-  return `${weekday(date)} ${M}/${D} · ${time}`
+  return `${weekday(date, locale)} ${M}/${D} · ${time}`
 }
 
 // "6/19 周三"
-export function labelDate(iso: string): string {
+export function labelDate(iso: string, locale = 'zh-CN'): string {
   const [, M, D] = iso.split('-').map(Number)
-  return `${M}/${D} ${weekday(iso)}`
+  return `${M}/${D} ${weekday(iso, locale)}`
 }
 
 // 短时区名，如 "KST" / "GMT+9"

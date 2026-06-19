@@ -1,27 +1,30 @@
 import { useNavigate } from 'react-router-dom'
 import type { MatchListItem } from '../lib/api'
 import { whenLabel, tzLabel, shareUrl } from '../lib/format'
+import { useI18n } from '../lib/i18n'
 
 function Badge({ m }: { m: MatchListItem }) {
-  if (m.locked) return <span className="rounded-full bg-gray-200 px-3 py-1 text-xs text-gray-500">已结束</span>
+  const { t } = useI18n()
+  if (m.locked) return <span className="rounded-full bg-gray-200 px-3 py-1 text-xs text-gray-500">{t('card.ended')}</span>
   if (m.shortfall > 0)
-    return <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">还差 {m.shortfall} 人</span>
+    return <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">{t('card.shortfall', { n: m.shortfall })}</span>
   if (m.waiting > 0)
-    return <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800">已满 +{m.waiting} 候补</span>
-  return <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800">已满</span>
+    return <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800">{t('card.fullWaiting', { n: m.waiting })}</span>
+  return <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800">{t('card.full')}</span>
 }
 
 export default function MatchCard({ m }: { m: MatchListItem }) {
   const navigate = useNavigate()
+  const { t, locale } = useI18n()
 
   async function share(e: React.MouseEvent) {
     e.stopPropagation()
     const url = shareUrl(m.id)
     try {
       await navigator.clipboard.writeText(url)
-      alert('分享链接已复制：\n' + url)
+      alert(t('share.copied', { url }))
     } catch {
-      prompt('复制此分享链接：', url)
+      prompt(t('share.manual'), url)
     }
   }
 
@@ -34,7 +37,7 @@ export default function MatchCard({ m }: { m: MatchListItem }) {
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="font-medium text-gray-900">{whenLabel(m.date, m.time)}</p>
+          <p className="font-medium text-gray-900">{whenLabel(m.date, m.time, locale)}</p>
           <p className="truncate text-sm text-gray-500">
             {m.venue} · {tzLabel(m.timezone, m.start_utc)}
           </p>
@@ -43,13 +46,11 @@ export default function MatchCard({ m }: { m: MatchListItem }) {
       </div>
       <div className="mt-3 flex items-center justify-between">
         <div className="flex gap-4 text-xs text-gray-500">
-          <span>
-            {m.confirmed} / {m.max_players} 人
-          </span>
-          <span>₩{m.fee.toLocaleString()} / 人</span>
+          <span>{t('card.people', { c: m.confirmed, m: m.max_players })}</span>
+          <span>{t('card.perPerson', { fee: m.fee.toLocaleString(locale) })}</span>
         </div>
         <button onClick={share} className="text-xs text-emerald-700 hover:underline">
-          分享
+          {t('common.share')}
         </button>
       </div>
     </div>

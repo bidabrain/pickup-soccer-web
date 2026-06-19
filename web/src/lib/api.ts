@@ -85,17 +85,18 @@ export const api = {
   drawCaptains: (id: string, pin: string) => req<{ captains: { id: string; name: string }[] }>(`/api/matches/${id}/captains`, { method: 'POST', body: JSON.stringify({ pin }) }),
 }
 
-export function msgOf(e: unknown): string {
+// 把错误映射成 i18n key，由组件用 t() 翻译
+export function errorKey(e: unknown): string {
   if (e instanceof ApiError) {
     switch (e.code) {
-      case 'PIN_INVALID': return 'PIN 错误'
-      case 'PIN_DUPLICATE': return '该 PIN 与本场其他人重复，请换一个'
-      case 'RATE_LIMITED': return '尝试过于频繁，请约 10 分钟后再试'
-      case 'MATCH_LOCKED': return '该场已开赛，不可修改'
-      case 'NOT_FOUND': return '未找到（可能已被清除）'
-      case 'VALIDATION': return e.message || '输入有误'
-      default: return e.message || '操作失败'
+      case 'PIN_INVALID': return 'err.pinInvalid'
+      case 'PIN_DUPLICATE': return 'err.pinDuplicate'
+      case 'RATE_LIMITED': return 'err.rateLimited'
+      case 'MATCH_LOCKED': return 'err.matchLocked'
+      case 'NOT_FOUND': return 'err.notFound'
+      case 'VALIDATION': return 'err.validation'
+      default: return 'err.failed'
     }
   }
-  return '网络错误，请重试'
+  return 'err.network'
 }

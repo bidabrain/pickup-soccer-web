@@ -1,28 +1,35 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { api, msgOf, type MatchListItem } from '../lib/api'
+import { api, errorKey, type MatchListItem } from '../lib/api'
+import { useI18n } from '../lib/i18n'
 import MatchCard from '../components/MatchCard'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 
 export default function HomePage() {
   const navigate = useNavigate()
+  const { t } = useI18n()
   const [matches, setMatches] = useState<MatchListItem[] | null>(null)
   const [error, setError] = useState('')
   const [showGuide, setShowGuide] = useState(false)
 
   useEffect(() => {
-    api.listMatches().then(setMatches).catch((e) => setError(msgOf(e)))
+    api.listMatches().then(setMatches).catch((e) => setError(t(errorKey(e))))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="flex items-center justify-between bg-emerald-800 px-4 py-4">
+      <header className="flex items-center justify-between gap-2 bg-emerald-800 px-4 py-4">
         <span className="text-lg font-medium text-white">Pickup Football</span>
-        <button
-          onClick={() => setShowGuide(true)}
-          className="rounded-lg bg-emerald-700 px-3 py-1.5 text-sm text-white hover:bg-emerald-600"
-        >
-          使用说明
-        </button>
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+          <button
+            onClick={() => setShowGuide(true)}
+            className="rounded-lg bg-emerald-700 px-3 py-1.5 text-sm text-white hover:bg-emerald-600"
+          >
+            {t('nav.guide')}
+          </button>
+        </div>
       </header>
 
       {showGuide && (
@@ -32,26 +39,26 @@ export default function HomePage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-              <span className="font-medium text-gray-900">使用说明</span>
-              <button onClick={() => setShowGuide(false)} aria-label="关闭" className="text-xl leading-none text-gray-400 hover:text-gray-600">
+              <span className="font-medium text-gray-900">{t('nav.guide')}</span>
+              <button onClick={() => setShowGuide(false)} aria-label={t('common.close')} className="text-xl leading-none text-gray-400 hover:text-gray-600">
                 &times;
               </button>
             </div>
             <div className="overflow-auto p-3">
-              <img src={`${import.meta.env.BASE_URL}usage-guide.svg`} alt="Pickup Football 使用说明" className="w-full" />
+              <img src={`${import.meta.env.BASE_URL}usage-guide.svg`} alt={t('nav.guide')} className="w-full" />
             </div>
           </div>
         </div>
       )}
 
       <main className="mx-auto max-w-md p-4 pb-24">
-        <p className="mb-3 text-sm text-gray-500">当前预约场次</p>
+        <p className="mb-3 text-sm text-gray-500">{t('home.current')}</p>
 
         {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
-        {!matches && !error && <p className="text-sm text-gray-400">加载中…</p>}
+        {!matches && !error && <p className="text-sm text-gray-400">{t('common.loading')}</p>}
         {matches && matches.length === 0 && (
           <div className="rounded-xl border border-dashed border-gray-300 p-8 text-center text-sm text-gray-400">
-            还没有预约，点右下角 + 新建一个
+            {t('home.empty')}
           </div>
         )}
         {matches?.map((m) => (
@@ -61,7 +68,7 @@ export default function HomePage() {
 
       <button
         onClick={() => navigate('/create')}
-        aria-label="新建预约"
+        aria-label={t('home.newMatch')}
         className="fixed bottom-6 right-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-600 text-3xl leading-none text-white shadow-lg hover:bg-emerald-700"
       >
         +
