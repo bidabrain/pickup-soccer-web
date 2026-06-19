@@ -23,6 +23,15 @@ export default function HomePage() {
         <span className="text-lg font-medium text-white">Pickup Football</span>
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
+          <a
+            href="https://github.com/bidabrain/pickup-soccer-web/releases/download/1.0.0/pickup-soccer-client.apk"
+            className="flex items-center gap-1 rounded-lg bg-emerald-700 px-3 py-1.5 text-sm text-white hover:bg-emerald-600"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true">
+              <path d="M17.523 15.341a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8m-11.046 0a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8M17.7 9H6.3L5 11.4V17h14v-5.6L17.7 9zM3.513 8.28l1.92-3.46a.4.4 0 0 1 .694.4L4.22 8.5A8.48 8.48 0 0 1 12 6a8.48 8.48 0 0 1 7.78 2.5l-1.906-3.28a.4.4 0 1 1 .692-.4l1.921 3.46C22.24 9.82 23 12.07 23 14.5V18a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3.5C1 12.07 1.76 9.82 3.513 8.28z" />
+            </svg>
+            {t('nav.download')}
+          </a>
           <button
             onClick={() => setShowGuide(true)}
             className="rounded-lg bg-emerald-700 px-3 py-1.5 text-sm text-white hover:bg-emerald-600"

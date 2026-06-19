@@ -13,7 +13,7 @@ const LOCALES: Record<Lang, string> = { zh: 'zh-CN', en: 'en-US', ko: 'ko-KR' }
 type Dict = Record<string, string>
 
 const zh: Dict = {
-  'nav.guide': '使用说明',
+  'nav.guide': '使用说明', 'nav.download': '下载客户端',
   'common.close': '关闭', 'common.back': '返回', 'common.share': '分享', 'common.manage': '管理', 'common.loading': '加载中…',
   'home.current': '当前预约场次', 'home.empty': '还没有预约，点右下角 + 新建一个', 'home.newMatch': '新建预约',
   'card.ended': '已结束', 'card.shortfall': '还差 {n} 人', 'card.fullWaiting': '已满 +{n} 候补', 'card.full': '已满',
@@ -38,7 +38,7 @@ const zh: Dict = {
 }
 
 const en: Dict = {
-  'nav.guide': 'Guide',
+  'nav.guide': 'Guide', 'nav.download': 'Get Android App',
   'common.close': 'Close', 'common.back': 'Back', 'common.share': 'Share', 'common.manage': 'Manage', 'common.loading': 'Loading…',
   'home.current': 'Upcoming matches', 'home.empty': 'No matches yet — tap + to create one', 'home.newMatch': 'New match',
   'card.ended': 'Ended', 'card.shortfall': '{n} more needed', 'card.fullWaiting': 'Full · +{n} waiting', 'card.full': 'Full',
@@ -63,7 +63,7 @@ const en: Dict = {
 }
 
 const ko: Dict = {
-  'nav.guide': '사용 설명',
+  'nav.guide': '사용 설명', 'nav.download': '앱 다운로드',
   'common.close': '닫기', 'common.back': '뒤로', 'common.share': '공유', 'common.manage': '관리', 'common.loading': '불러오는 중…',
   'home.current': '예정된 경기', 'home.empty': '아직 예약이 없습니다 — + 를 눌러 만들어 보세요', 'home.newMatch': '새 예약',
   'card.ended': '종료됨', 'card.shortfall': '{n}명 더 필요', 'card.fullWaiting': '마감 · 대기 {n}', 'card.full': '마감',
