@@ -45,7 +45,7 @@ export default function HomePage() {
               </button>
             </div>
             <div className="overflow-auto p-3">
-              <img src={`${import.meta.env.BASE_URL}usage-guide-${lang}.svg`} alt={t('nav.guide')} className="w-full" />
+              <img src={`${import.meta.env.BASE_URL}usage-guide-${lang}.svg?v=2`} alt={t('nav.guide')} className="w-full" />
             </div>
           </div>
         </div>
