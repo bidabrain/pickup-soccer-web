@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" viewBox="0 0 760 1244">
-<rect width="760" height="1244" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" viewBox="0 0 760 1284">
+<rect width="760" height="1284" fill="#ffffff"/>
 <rect x="16" y="16" width="728" height="104" rx="14" fill="#0F6E56"/>
 <text x="40" y="58" font-size="22" font-weight="600" fill="#ffffff">Pickup Football 使用说明</text>
 <text x="40" y="84" font-size="13" fill="#bfe6d8">无需注册 · 凭 PIN 管理预约与报名</text>
@@ -17,7 +17,8 @@
 <text x="64" y="262" font-size="13" fill="#374151">点右下角 ＋ 新建预约</text>
 <text x="40" y="286" font-size="13" font-weight="600" fill="#1D9E75">⑤</text>
 <text x="64" y="286" font-size="13" fill="#374151">右上角可切换语言：中文 / English / 한국어</text>
-<rect x="16" y="332" width="728" height="158" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+<rect x="560" y="154" width="168" height="150" rx="12" fill="#f9fafb" stroke="#e5e7eb"/><path d="M560 166 a12 12 0 0 1 12 -12 h144 a12 12 0 0 1 12 12 v12 h-168 z" fill="#0F6E56"/><rect x="572" y="188" width="144" height="38" rx="6" fill="#ffffff" stroke="#eeeeee"/><rect x="580" y="196" width="78" height="6" rx="3" fill="#e5e7eb"/><rect x="674" y="192" width="42" height="14" rx="7" fill="#FAEEDA"/><rect x="580" y="209" width="54" height="5" rx="2" fill="#eeeeee"/><rect x="572" y="234" width="144" height="38" rx="6" fill="#ffffff" stroke="#eeeeee"/><rect x="580" y="242" width="78" height="6" rx="3" fill="#e5e7eb"/><rect x="674" y="238" width="42" height="14" rx="7" fill="#E1F5EE"/><rect x="580" y="255" width="54" height="5" rx="2" fill="#eeeeee"/><circle cx="704" cy="282" r="13" fill="#1D9E75"/><text x="704" y="287" font-size="17" fill="#fff" text-anchor="middle">+</text>
+<rect x="16" y="332" width="728" height="198" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
 <circle cx="40" cy="356" r="13" fill="#1D9E75"/><text x="40" y="361" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">2</text>
 <text x="64" y="362" font-size="16" font-weight="600" fill="#0b3d33">新建预约</text>
 <text x="40" y="386" font-size="13" font-weight="600" fill="#1D9E75">①</text>
@@ -28,52 +29,57 @@
 <text x="64" y="434" font-size="13" fill="#374151">设 6 位管理 PIN —— 日后改/删本场都要它</text>
 <text x="40" y="458" font-size="13" font-weight="600" fill="#1D9E75">④</text>
 <text x="64" y="458" font-size="13" fill="#374151">点「创建预约」，即出现在首页</text>
-<rect x="16" y="504" width="728" height="182" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
-<circle cx="40" cy="528" r="13" fill="#1D9E75"/><text x="40" y="533" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">3</text>
-<text x="64" y="534" font-size="16" font-weight="600" fill="#0b3d33">报名参加</text>
-<text x="40" y="558" font-size="13" font-weight="600" fill="#1D9E75">①</text>
-<text x="64" y="558" font-size="13" fill="#374151">进入场次，点「报名参加」</text>
-<text x="40" y="582" font-size="13" font-weight="600" fill="#1D9E75">②</text>
-<text x="64" y="582" font-size="13" fill="#374151">输入名字 + 设 6 位个人 PIN</text>
-<text x="40" y="606" font-size="13" font-weight="600" fill="#1D9E75">③</text>
-<text x="64" y="606" font-size="13" fill="#374151">同一场内 PIN 不能与他人重复，重复会提示换一个</text>
-<text x="40" y="630" font-size="13" font-weight="600" fill="#1D9E75">④</text>
-<text x="64" y="630" font-size="13" fill="#374151">报名超过上场人数后，后来者自动进候补名单</text>
-<text x="40" y="654" font-size="13" font-weight="600" fill="#1D9E75">⑤</text>
-<text x="64" y="654" font-size="13" fill="#374151">可帮多位朋友报名(各用不同名字 + 不同 PIN)</text>
-<rect x="16" y="700" width="728" height="182" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
-<circle cx="40" cy="724" r="13" fill="#1D9E75"/><text x="40" y="729" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">4</text>
-<text x="64" y="730" font-size="16" font-weight="600" fill="#0b3d33">管理我的报名</text>
-<text x="40" y="754" font-size="13" font-weight="600" fill="#1D9E75">①</text>
-<text x="64" y="754" font-size="13" fill="#374151">在名单里点你自己的名字</text>
-<text x="40" y="778" font-size="13" font-weight="600" fill="#1D9E75">②</text>
-<text x="64" y="778" font-size="13" fill="#374151">输入报名时设的个人 PIN</text>
-<text x="40" y="802" font-size="13" font-weight="600" fill="#1D9E75">③</text>
-<text x="64" y="802" font-size="13" fill="#374151">可改名，或删除自己的报名</text>
-<text x="40" y="826" font-size="13" font-weight="600" fill="#1D9E75">④</text>
-<text x="64" y="826" font-size="13" fill="#374151">打开「已付活动费」开关并保存，名单上会显示绿色「已付」标</text>
-<text x="40" y="850" font-size="13" font-weight="600" fill="#b91c1c">!</text>
-<text x="64" y="850" font-size="13" fill="#b91c1c">连续输错 10 次会锁约 10 分钟(防别人猜 PIN)</text>
-<rect x="16" y="896" width="728" height="158" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
-<circle cx="40" cy="920" r="13" fill="#1D9E75"/><text x="40" y="925" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">5</text>
-<text x="64" y="926" font-size="16" font-weight="600" fill="#0b3d33">创建人功能（管理 PIN）</text>
-<text x="40" y="950" font-size="13" font-weight="600" fill="#1D9E75">①</text>
-<text x="64" y="950" font-size="13" fill="#374151">编辑本场：可改时间/场地/费用/人数；日期不可改</text>
-<text x="40" y="974" font-size="13" font-weight="600" fill="#1D9E75">②</text>
-<text x="64" y="974" font-size="13" fill="#374151">删除本场：仅未开赛，会移除全部报名，需二次确认</text>
-<text x="40" y="998" font-size="13" font-weight="600" fill="#1D9E75">③</text>
-<text x="64" y="998" font-size="13" fill="#374151">随机抽 2 名队长(蓝/红两色标注，可重抽)</text>
-<text x="40" y="1022" font-size="13" font-weight="600" fill="#b91c1c">!</text>
-<text x="64" y="1022" font-size="13" fill="#b91c1c">以上都需管理 PIN；但不能改动已报名的名单本身</text>
-<rect x="16" y="1068" width="728" height="158" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
-<circle cx="40" cy="1092" r="13" fill="#1D9E75"/><text x="40" y="1097" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">6</text>
-<text x="64" y="1098" font-size="16" font-weight="600" fill="#0b3d33">规则速记</text>
-<text x="40" y="1122" font-size="13" font-weight="600" fill="#9ca3af">•</text>
-<text x="64" y="1122" font-size="13" fill="#374151">PIN：管理 PIN 管整场；个人 PIN 管自己；同场报名 PIN 唯一</text>
-<text x="40" y="1146" font-size="13" font-weight="600" fill="#9ca3af">•</text>
-<text x="64" y="1146" font-size="13" fill="#374151">过期：开赛后置灰只读；30 天后自动清除，链接同时失效</text>
-<text x="40" y="1170" font-size="13" font-weight="600" fill="#9ca3af">•</text>
-<text x="64" y="1170" font-size="13" fill="#374151">分享：每场有固定链接，发给朋友点开直接看该场详情</text>
-<text x="40" y="1194" font-size="13" font-weight="600" fill="#9ca3af">•</text>
-<text x="64" y="1194" font-size="13" fill="#374151">候补：满员后报名进候补；有人退出，候补按顺序自动补上</text>
+<rect x="560" y="350" width="168" height="172" rx="12" fill="#f9fafb" stroke="#e5e7eb"/><path d="M560 362 a12 12 0 0 1 12 -12 h144 a12 12 0 0 1 12 12 v12 h-168 z" fill="#0F6E56"/><rect x="572" y="386" width="144" height="16" rx="4" fill="#ffffff" stroke="#dfe3e8"/><rect x="572" y="410" width="144" height="16" rx="4" fill="#ffffff" stroke="#dfe3e8"/><rect x="572" y="434" width="144" height="16" rx="4" fill="#ffffff" stroke="#dfe3e8"/><rect x="572" y="458" width="144" height="16" rx="4" fill="#ffffff" stroke="#dfe3e8"/><rect x="572" y="482" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="594" y="482" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="616" y="482" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="638" y="482" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="660" y="482" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="682" y="482" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="572" y="512" width="144" height="22" rx="6" fill="#1D9E75"/>
+<rect x="16" y="544" width="728" height="182" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+<circle cx="40" cy="568" r="13" fill="#1D9E75"/><text x="40" y="573" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">3</text>
+<text x="64" y="574" font-size="16" font-weight="600" fill="#0b3d33">报名参加</text>
+<text x="40" y="598" font-size="13" font-weight="600" fill="#1D9E75">①</text>
+<text x="64" y="598" font-size="13" fill="#374151">进入场次，点「报名参加」</text>
+<text x="40" y="622" font-size="13" font-weight="600" fill="#1D9E75">②</text>
+<text x="64" y="622" font-size="13" fill="#374151">输入名字 + 设 6 位个人 PIN</text>
+<text x="40" y="646" font-size="13" font-weight="600" fill="#1D9E75">③</text>
+<text x="64" y="646" font-size="13" fill="#374151">同一场内 PIN 不能与他人重复，重复会提示换一个</text>
+<text x="40" y="670" font-size="13" font-weight="600" fill="#1D9E75">④</text>
+<text x="64" y="670" font-size="13" fill="#374151">报名超过上场人数后，后来者自动进候补名单</text>
+<text x="40" y="694" font-size="13" font-weight="600" fill="#1D9E75">⑤</text>
+<text x="64" y="694" font-size="13" fill="#374151">可帮多位朋友报名(各用不同名字 + 不同 PIN)</text>
+<rect x="560" y="562" width="168" height="150" rx="12" fill="#f9fafb" stroke="#e5e7eb"/><path d="M560 574 a12 12 0 0 1 12 -12 h144 a12 12 0 0 1 12 12 v12 h-168 z" fill="#0F6E56"/><rect x="572" y="598" width="144" height="92" rx="8" fill="#ffffff" stroke="#eeeeee"/><rect x="580" y="608" width="128" height="16" rx="4" fill="#f3f4f6"/><rect x="578" y="634" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="600" y="634" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="622" y="634" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="644" y="634" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="666" y="634" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="688" y="634" width="17" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/><rect x="572" y="700" width="144" height="22" rx="6" fill="#1D9E75"/>
+<rect x="16" y="740" width="728" height="182" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+<circle cx="40" cy="764" r="13" fill="#1D9E75"/><text x="40" y="769" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">4</text>
+<text x="64" y="770" font-size="16" font-weight="600" fill="#0b3d33">管理我的报名</text>
+<text x="40" y="794" font-size="13" font-weight="600" fill="#1D9E75">①</text>
+<text x="64" y="794" font-size="13" fill="#374151">在名单里点你自己的名字</text>
+<text x="40" y="818" font-size="13" font-weight="600" fill="#1D9E75">②</text>
+<text x="64" y="818" font-size="13" fill="#374151">输入报名时设的个人 PIN</text>
+<text x="40" y="842" font-size="13" font-weight="600" fill="#1D9E75">③</text>
+<text x="64" y="842" font-size="13" fill="#374151">可改名，或删除自己的报名</text>
+<text x="40" y="866" font-size="13" font-weight="600" fill="#1D9E75">④</text>
+<text x="64" y="866" font-size="13" fill="#374151">打开「已付活动费」开关并保存，名单上会显示绿色「已付」标</text>
+<text x="40" y="890" font-size="13" font-weight="600" fill="#b91c1c">!</text>
+<text x="64" y="890" font-size="13" fill="#b91c1c">连续输错 10 次会锁约 10 分钟(防别人猜 PIN)</text>
+<rect x="560" y="758" width="168" height="152" rx="12" fill="#f9fafb" stroke="#e5e7eb"/><path d="M560 770 a12 12 0 0 1 12 -12 h144 a12 12 0 0 1 12 12 v12 h-168 z" fill="#0F6E56"/><rect x="572" y="792" width="144" height="18" rx="4" fill="#ffffff" stroke="#eeeeee"/><rect x="572" y="814" width="144" height="18" rx="4" fill="#E1F5EE"/><rect x="572" y="836" width="144" height="18" rx="4" fill="#ffffff" stroke="#eeeeee"/><rect x="572" y="862" width="144" height="28" rx="6" fill="#ffffff" stroke="#e5e7eb"/><rect x="580" y="872" width="44" height="8" rx="3" fill="#9ca3af"/><rect x="682" y="867" width="30" height="18" rx="9" fill="#1D9E75"/><circle cx="705" cy="876" r="7" fill="#ffffff"/>
+<rect x="16" y="936" width="728" height="158" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+<circle cx="40" cy="960" r="13" fill="#1D9E75"/><text x="40" y="965" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">5</text>
+<text x="64" y="966" font-size="16" font-weight="600" fill="#0b3d33">创建人功能（管理 PIN）</text>
+<text x="40" y="990" font-size="13" font-weight="600" fill="#1D9E75">①</text>
+<text x="64" y="990" font-size="13" fill="#374151">编辑本场：可改时间/场地/费用/人数；日期不可改</text>
+<text x="40" y="1014" font-size="13" font-weight="600" fill="#1D9E75">②</text>
+<text x="64" y="1014" font-size="13" fill="#374151">删除本场：仅未开赛，会移除全部报名，需二次确认</text>
+<text x="40" y="1038" font-size="13" font-weight="600" fill="#1D9E75">③</text>
+<text x="64" y="1038" font-size="13" fill="#374151">随机抽 2 名队长(蓝/红两色标注，可重抽)</text>
+<text x="40" y="1062" font-size="13" font-weight="600" fill="#b91c1c">!</text>
+<text x="64" y="1062" font-size="13" fill="#b91c1c">以上都需管理 PIN；但不能改动已报名的名单本身</text>
+<rect x="560" y="954" width="168" height="132" rx="12" fill="#f9fafb" stroke="#e5e7eb"/><path d="M560 966 a12 12 0 0 1 12 -12 h144 a12 12 0 0 1 12 12 v12 h-168 z" fill="#0F6E56"/><rect x="572" y="992" width="46" height="16" rx="8" fill="#E6F1FB"/><rect x="626" y="992" width="46" height="16" rx="8" fill="#FCEBEB"/><rect x="572" y="1024" width="44" height="22" rx="5" fill="#ffffff" stroke="#cbd5e1"/><rect x="622" y="1024" width="44" height="22" rx="5" fill="#ffffff" stroke="#cbd5e1"/><rect x="672" y="1024" width="44" height="22" rx="5" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="16" y="1108" width="728" height="158" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+<circle cx="40" cy="1132" r="13" fill="#1D9E75"/><text x="40" y="1137" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">6</text>
+<text x="64" y="1138" font-size="16" font-weight="600" fill="#0b3d33">规则速记</text>
+<text x="40" y="1162" font-size="13" font-weight="600" fill="#9ca3af">•</text>
+<text x="64" y="1162" font-size="13" fill="#374151">PIN：管理 PIN 管整场；个人 PIN 管自己；同场报名 PIN 唯一</text>
+<text x="40" y="1186" font-size="13" font-weight="600" fill="#9ca3af">•</text>
+<text x="64" y="1186" font-size="13" fill="#374151">过期：开赛后置灰只读；30 天后自动清除，链接同时失效</text>
+<text x="40" y="1210" font-size="13" font-weight="600" fill="#9ca3af">•</text>
+<text x="64" y="1210" font-size="13" fill="#374151">分享：每场有固定链接，发给朋友点开直接看该场详情</text>
+<text x="40" y="1234" font-size="13" font-weight="600" fill="#9ca3af">•</text>
+<text x="64" y="1234" font-size="13" fill="#374151">候补：满员后报名进候补；有人退出，候补按顺序自动补上</text>
+<rect x="560" y="1126" width="168" height="124" rx="12" fill="#f9fafb" stroke="#e5e7eb"/><path d="M560 1138 a12 12 0 0 1 12 -12 h144 a12 12 0 0 1 12 12 v12 h-168 z" fill="#0F6E56"/><rect x="572" y="1156" width="68" height="34" rx="6" fill="#f3f4f6"/><circle cx="584" cy="1173" r="5" fill="#1D9E75"/><rect x="596" y="1170" width="34" height="6" rx="3" fill="#cbd5e1"/><rect x="648" y="1156" width="68" height="34" rx="6" fill="#f3f4f6"/><circle cx="660" cy="1173" r="5" fill="#185FA5"/><rect x="672" y="1170" width="34" height="6" rx="3" fill="#cbd5e1"/><rect x="572" y="1198" width="68" height="34" rx="6" fill="#f3f4f6"/><circle cx="584" cy="1215" r="5" fill="#BA7517"/><rect x="596" y="1212" width="34" height="6" rx="3" fill="#cbd5e1"/><rect x="648" y="1198" width="68" height="34" rx="6" fill="#f3f4f6"/><circle cx="660" cy="1215" r="5" fill="#A32D2D"/><rect x="672" y="1212" width="34" height="6" rx="3" fill="#cbd5e1"/>
 </svg>
