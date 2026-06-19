@@ -3,9 +3,10 @@ name: Deploy
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - '**.md'
-      - '.gitignore'
+    # 只有前端或后端代码改动才部署；android/、文档、其他文件夹的改动不会触发
+    paths:
+      - 'web/**'
+      - 'worker/**'
   workflow_dispatch:
 
 permissions:
