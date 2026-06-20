@@ -99,7 +99,6 @@ export default function MatchDetailPage() {
         {confirmed.map((r) => (
           <button
             key={r.id}
-            disabled={m.locked}
             onClick={() => setModal({ type: 'manage', reg: r })}
             className="flex w-full items-center justify-between py-2 text-left text-sm disabled:opacity-100"
           >
@@ -108,7 +107,7 @@ export default function MatchDetailPage() {
               {r.is_captain ? <span className={`ml-2 rounded px-1.5 py-0.5 text-xs ${captainColor(r.id)}`}>{t('detail.captainBadge')}</span> : null}
               {r.paid ? <span className="ml-2 rounded bg-emerald-100 px-1.5 py-0.5 text-xs text-emerald-800">{t('detail.paid')}</span> : null}
             </span>
-            {!m.locked && <span className="text-xs text-gray-400">{t('common.manage')}</span>}
+            <span className="text-xs text-gray-400">{m.locked ? t('detail.markPaid') : t('common.manage')}</span>
           </button>
         ))}
       </div>
@@ -120,7 +119,6 @@ export default function MatchDetailPage() {
             {waiting.map((r) => (
               <button
                 key={r.id}
-                disabled={m.locked}
                 onClick={() => setModal({ type: 'manage', reg: r })}
                 className="flex w-full items-center justify-between py-1.5 text-left text-sm text-orange-900"
               >
@@ -128,7 +126,7 @@ export default function MatchDetailPage() {
                   <span className="opacity-60">{r.position}.</span> {r.name}
                   {r.paid ? <span className="ml-2 rounded bg-emerald-100 px-1.5 py-0.5 text-xs text-emerald-800">{t('detail.paid')}</span> : null}
                 </span>
-                {!m.locked && <span className="text-xs opacity-60">{t('common.manage')}</span>}
+                <span className="text-xs opacity-60">{m.locked ? t('detail.markPaid') : t('common.manage')}</span>
               </button>
             ))}
           </div>
@@ -159,7 +157,7 @@ export default function MatchDetailPage() {
       )}
 
       {modal?.type === 'register' && <RegisterModal id={id} onClose={() => setModal(null)} onDone={refresh} />}
-      {modal?.type === 'manage' && <ManageModal mid={id} reg={modal.reg} onClose={() => setModal(null)} onDone={refresh} />}
+      {modal?.type === 'manage' && <ManageModal mid={id} reg={modal.reg} locked={m.locked} onClose={() => setModal(null)} onDone={refresh} />}
       {modal?.type === 'edit' && <EditModal m={m} onClose={() => setModal(null)} onDone={refresh} />}
       {modal?.type === 'delete' && (
         <DeleteModal id={id} count={m.registrations.length} onClose={() => setModal(null)} onDone={() => navigate('/')} />
@@ -225,7 +223,7 @@ function RegisterModal({ id, onClose, onDone }: { id: string; onClose: () => voi
   )
 }
 
-function ManageModal({ mid, reg, onClose, onDone }: { mid: string; reg: Registration; onClose: () => void; onDone: () => void }) {
+function ManageModal({ mid, reg, locked, onClose, onDone }: { mid: string; reg: Registration; locked: boolean; onClose: () => void; onDone: () => void }) {
   const { t } = useI18n()
   const [name, setName] = useState(reg.name)
   const [paid, setPaid] = useState(reg.paid === 1)
@@ -238,7 +236,8 @@ function ManageModal({ mid, reg, onClose, onDone }: { mid: string; reg: Registra
     if (pin.length !== 6) return setError(t('manage.errPin'))
     setBusy(true)
     try {
-      await api.editReg(mid, reg.id, name.trim(), paid, pin)
+      // 锁场后名字不可改，提交原名字，仅「已付活动费」生效
+      await api.editReg(mid, reg.id, locked ? reg.name : name.trim(), paid, pin)
       onDone()
     } catch (e) {
       setError(t(errorKey(e)))
@@ -259,9 +258,13 @@ function ManageModal({ mid, reg, onClose, onDone }: { mid: string; reg: Registra
     }
   }
   return (
-    <Modal title={t('manage.title', { name: reg.name })} onClose={onClose}>
+    <Modal title={t(locked ? 'manage.payTitle' : 'manage.title', { name: reg.name })} onClose={onClose}>
       <div className="space-y-3">
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t('reg.name')} className={field} />
+        {locked ? (
+          <p className="rounded-lg bg-gray-100 p-2 text-sm text-gray-600">{t('manage.payOnly')}</p>
+        ) : (
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t('reg.name')} className={field} />
+        )}
         <div className="flex items-center justify-between rounded-lg border border-gray-200 px-3 py-2">
           <span className="text-sm text-gray-700">{t('manage.paid')}</span>
           <button
@@ -279,9 +282,11 @@ function ManageModal({ mid, reg, onClose, onDone }: { mid: string; reg: Registra
         <button onClick={save} disabled={busy} className={primaryBtn}>
           {t('manage.save')}
         </button>
-        <button onClick={remove} disabled={busy} className="w-full rounded-xl border border-red-200 py-2.5 text-sm text-red-600 hover:bg-red-50 disabled:opacity-50">
-          {t('manage.delete')}
-        </button>
+        {!locked && (
+          <button onClick={remove} disabled={busy} className="w-full rounded-xl border border-red-200 py-2.5 text-sm text-red-600 hover:bg-red-50 disabled:opacity-50">
+            {t('manage.delete')}
+          </button>
+        )}
       </div>
     </Modal>
   )

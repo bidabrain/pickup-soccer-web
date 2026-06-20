@@ -358,12 +358,16 @@ async function editReg(req: Request, env: Env, mid: string, rid: string, ip: str
       WHERE r.id = ? AND r.match_id = ?`
   ).bind(rid, mid).first()) as { pin_hash: string; start_utc: number } | null
   if (!r) return err('NOT_FOUND', 404)
-  if (Date.now() > r.start_utc) return err('MATCH_LOCKED', 403)
 
   const bad = await guardPin(env, ip, mid, pin, r.pin_hash)
   if (bad) return bad
 
-  await env.DB.prepare('UPDATE registrations SET name = ?, paid = ? WHERE id = ?').bind(name, paid, rid).run()
+  // 开赛后转为只读，但仍允许修改「已付活动费」（付款通常在踢完球后进行）；名字等其他字段不可改
+  if (Date.now() > r.start_utc) {
+    await env.DB.prepare('UPDATE registrations SET paid = ? WHERE id = ?').bind(paid, rid).run()
+  } else {
+    await env.DB.prepare('UPDATE registrations SET name = ?, paid = ? WHERE id = ?').bind(name, paid, rid).run()
+  }
   return json({ ok: true })
 }
 
