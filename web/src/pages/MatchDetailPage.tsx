@@ -24,6 +24,12 @@ export default function MatchDetailPage() {
   const [error, setError] = useState('')
   const [modal, setModal] = useState<ModalState>(null)
 
+  // 报名 / 管理等弹窗打开时，通知原生客户端关闭下拉刷新，避免填写时误触刷新
+  useEffect(() => {
+    const bridge = (window as { AndroidBridge?: { setPullToRefresh?: (enabled: boolean) => void } }).AndroidBridge
+    bridge?.setPullToRefresh?.(modal === null)
+  }, [modal])
+
   const load = useCallback(() => {
     api.getMatch(id).then(setM).catch((e) => setError(t(errorKey(e))))
     // eslint-disable-next-line react-hooks/exhaustive-deps

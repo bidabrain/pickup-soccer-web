@@ -9,7 +9,28 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import java.util.concurrent.TimeUnit
 
-class WebAppInterface(private val context: Context) {
+class WebAppInterface(
+    private val context: Context,
+    private val ui: UiCallbacks? = null,
+) {
+
+    /** 网页 → 原生 的界面控制回调（在 binder 线程上触发，实现方需自行切回主线程） */
+    interface UiCallbacks {
+        fun onRouteChanged(hash: String)
+        fun onPullToRefreshChanged(enabled: Boolean)
+    }
+
+    // 当前 hash 路由变化时调用（首页 "#/"、新建 "#/create"、详情 "#/match/:id"）
+    @JavascriptInterface
+    fun onRouteChanged(hash: String) {
+        ui?.onRouteChanged(hash)
+    }
+
+    // 网页根据当前页面/弹窗状态控制下拉刷新是否可用（报名、新建预约时为 false）
+    @JavascriptInterface
+    fun setPullToRefresh(enabled: Boolean) {
+        ui?.onPullToRefreshChanged(enabled)
+    }
 
     // 当网页检测到「GET /api/matches/:id」成功时调用，用于缓存 start_utc
     @JavascriptInterface

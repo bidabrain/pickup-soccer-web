@@ -68,7 +68,7 @@ export default function CreateMatchPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="flex items-center gap-3 bg-emerald-800 px-4 py-4">
-        <button onClick={() => navigate(-1)} aria-label={t('common.back')} className="text-xl text-white">
+        <button onClick={() => navigate('/')} aria-label={t('common.back')} className="text-xl text-white">
           &larr;
         </button>
         <span className="text-lg font-medium text-white">{t('create.title')}</span>

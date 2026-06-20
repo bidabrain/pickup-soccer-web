@@ -11,16 +11,23 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), WebAppInterface.UiCallbacks {
 
     private lateinit var webView: WebView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private var lastResumeLoadTime = 0L
+    private var lastBackPressTime = 0L
+
+    // 网页当前 hash 路由（binder 线程写、主线程读）
+    @Volatile private var currentHash = ""
 
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -34,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         webView = findViewById(R.id.webView)
+        swipeRefresh = findViewById(R.id.swipeRefresh)
+        swipeRefresh.setColorSchemeResources(R.color.brand_green)
+        swipeRefresh.setOnRefreshListener { webView.reload() }
         setupWebView()
 
         NotificationHelper.createChannels(this)
@@ -42,10 +52,20 @@ class MainActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (webView.canGoBack()) webView.goBack()
-                else {
-                    isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
+                val atHome = currentHash.isEmpty() || currentHash == "#" || currentHash == "#/"
+                if (!atHome) {
+                    // 子页面（新建预约 / 场次详情）：回退到首页
+                    if (webView.canGoBack()) webView.goBack()
+                    else webView.evaluateJavascript("window.location.hash = '#/'", null)
+                } else {
+                    // 首页：两次返回手势内彻底关闭应用
+                    val now = System.currentTimeMillis()
+                    if (now - lastBackPressTime < 2000) {
+                        finishAndRemoveTask()
+                    } else {
+                        lastBackPressTime = now
+                        Toast.makeText(this@MainActivity, R.string.exit_confirm, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         })
@@ -85,13 +105,14 @@ class MainActivity : AppCompatActivity() {
             builtInZoomControls = false
         }
 
-        webView.addJavascriptInterface(WebAppInterface(this), "AndroidBridge")
+        webView.addJavascriptInterface(WebAppInterface(this, this), "AndroidBridge")
 
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = false
 
             override fun onPageFinished(view: WebView, url: String) {
                 view.evaluateJavascript(JS_BRIDGE, null)
+                swipeRefresh.isRefreshing = false
             }
         }
 
@@ -112,6 +133,19 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    // —— WebAppInterface.UiCallbacks（在 binder 线程触发，需切回主线程操作 UI）——
+
+    override fun onRouteChanged(hash: String) {
+        currentHash = hash
+        // 默认：除「新建预约」外都允许下拉刷新；详情页报名弹窗会再单独关闭
+        val enabled = !hash.startsWith("#/create")
+        runOnUiThread { swipeRefresh.isEnabled = enabled }
+    }
+
+    override fun onPullToRefreshChanged(enabled: Boolean) {
+        runOnUiThread { swipeRefresh.isEnabled = enabled }
+    }
+
     private fun requestNotificationPermissionIfNeeded() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
@@ -130,6 +164,17 @@ class MainActivity : AppCompatActivity() {
 (function() {
   if (window._pickupBridgeInstalled) return;
   window._pickupBridgeInstalled = true;
+
+  // 路由变化上报：原生据此决定回退行为与下拉刷新是否可用
+  function reportRoute() {
+    try {
+      if (window.AndroidBridge && AndroidBridge.onRouteChanged)
+        AndroidBridge.onRouteChanged(window.location.hash || '');
+    } catch (e) {}
+  }
+  window.addEventListener('hashchange', reportRoute);
+  reportRoute();
+
   const _orig = window.fetch;
   window.fetch = async function() {
     const res = await _orig.apply(this, arguments);
