@@ -68,6 +68,13 @@ export default function MatchDetailPage() {
 
   const confirmed = m.registrations.filter((r) => r.status === 'confirmed')
   const waiting = m.registrations.filter((r) => r.status === 'waiting')
+  const shortfall = m.max_players - confirmed.length
+  const summary =
+    shortfall > 0
+      ? { text: t('detail.sumShort', { n: confirmed.length, s: shortfall }), cls: 'text-orange-600' }
+      : waiting.length > 0
+        ? { text: t('detail.sumWaiting', { n: confirmed.length, w: waiting.length }), cls: 'text-emerald-600' }
+        : { text: t('detail.sumFull', { n: confirmed.length }), cls: 'text-emerald-600' }
   const captains = confirmed.filter((r) => r.is_captain)
   const captainColor = (rid: string) => {
     const i = captains.findIndex((c) => c.id === rid)
@@ -77,10 +84,24 @@ export default function MatchDetailPage() {
   return (
     <Shell onBack={() => navigate('/')} onShare={share}>
       <p className="text-lg font-medium text-gray-900">{whenLabel(m.date, m.time, locale)}</p>
-      <p className="mt-1 text-sm text-gray-500">
-        {m.venue} · {tzLabel(m.timezone, m.start_utc)} · {t('card.perPerson', { fee: m.fee.toLocaleString(locale) })} · {t('detail.onField', { n: m.max_players })}
-      </p>
-      {m.note && <p className="mt-2 rounded-lg bg-gray-100 p-2 text-sm text-gray-600">{m.note}</p>}
+      <p className="mt-0.5 text-sm text-gray-400">{tzLabel(m.timezone, m.start_utc)}</p>
+
+      <div className="mt-3 space-y-2 rounded-xl bg-gray-50 p-4">
+        <div className="flex items-baseline gap-3">
+          <span className="w-20 shrink-0 text-sm text-gray-500">{t('detail.venueLabel')}</span>
+          <span className="text-base font-medium text-gray-900">{m.venue}</span>
+        </div>
+        <div className="flex items-baseline gap-3">
+          <span className="w-20 shrink-0 text-sm text-gray-500">{t('detail.feeLabel')}</span>
+          <span className="text-base font-medium text-gray-900">{t('card.perPerson', { fee: m.fee.toLocaleString(locale) })}</span>
+        </div>
+        <div className="flex items-baseline gap-3">
+          <span className="w-20 shrink-0 text-sm text-gray-500">{t('detail.onFieldLabel')}</span>
+          <span className="text-base font-medium text-gray-900">{t('detail.players', { n: m.max_players })}</span>
+        </div>
+      </div>
+
+      {m.note && <p className="mt-3 rounded-lg bg-amber-50 p-3 text-base leading-relaxed text-gray-700">{m.note}</p>}
       {m.locked && <p className="mt-2 text-sm text-gray-400">{t('detail.endedReadonly')}</p>}
 
       {captains.length === 2 && (
@@ -94,7 +115,7 @@ export default function MatchDetailPage() {
         </div>
       )}
 
-      <p className="mt-5 mb-2 text-xs text-gray-500">{t('detail.registered', { n: confirmed.length })}</p>
+      <p className={`mt-6 mb-3 text-xl font-bold ${summary.cls}`}>{summary.text}</p>
       <div className="divide-y divide-gray-100">
         {confirmed.map((r) => (
           <button
