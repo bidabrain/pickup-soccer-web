@@ -210,8 +210,11 @@ async function getMatch(env: Env, id: string): Promise<Response> {
   ).bind(id).first()) as Record<string, number> | null
   if (!m) return err('NOT_FOUND', 404)
 
+  // seq = 现存报名按报名顺序的实时排名（1..n，无空洞）。
+  // position 只是登记顺序的稳定排序键，退出后不重排，故名次必须动态算，不能直接用 position 数值。
   const { results } = await env.DB.prepare(
-    `SELECT id,name,position,is_captain,paid,created_at
+    `SELECT id,name,is_captain,paid,created_at,
+            ROW_NUMBER() OVER (ORDER BY position ASC) AS position
        FROM registrations WHERE match_id = ? ORDER BY position ASC`
   ).bind(id).all()
 
@@ -434,8 +437,13 @@ async function drawCaptains(req: Request, env: Env, id: string, ip: string): Pro
   const bad = await guardPin(env, ip, id, pin, m.organizer_pin_hash)
   if (bad) return bad
 
+  // 确认上场 = 现存报名按报名顺序的前 max_players 名（用实时名次，不能用 position 数值，
+  // 否则有人退出后名次靠前的确认者可能被漏掉）。已退出者无行，绝不会被抽中。
   const { results } = await env.DB.prepare(
-    'SELECT id,name FROM registrations WHERE match_id = ? AND position <= ? ORDER BY position ASC'
+    `SELECT id,name FROM (
+       SELECT id,name, ROW_NUMBER() OVER (ORDER BY position ASC) AS seq
+         FROM registrations WHERE match_id = ?
+     ) WHERE seq <= ? ORDER BY seq ASC`
   ).bind(id, m.max_players).all()
   const confirmed = results as { id: string; name: string }[]
   if (confirmed.length < 2) return err('VALIDATION', 400, 'need at least 2 confirmed players')
