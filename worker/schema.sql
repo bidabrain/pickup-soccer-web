@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS matches (
   timezone           TEXT    NOT NULL DEFAULT 'Asia/Seoul',
   start_utc          INTEGER NOT NULL,           -- 绝对 UTC 毫秒，所有时间比较用它
   venue              TEXT    NOT NULL,
+  venue_lat          REAL,                       -- 选填：选中地点纬度（OSM）；纯文字场地为 NULL
+  venue_lon          REAL,                       -- 选填：选中地点经度（OSM）；纯文字场地为 NULL
   fee                INTEGER NOT NULL,           -- 每人费用（整数元）
   max_players        INTEGER NOT NULL,           -- 上场人数
   note               TEXT,                       -- 备注（可空）

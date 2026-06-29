@@ -4,6 +4,8 @@ import { api, errorKey } from '../lib/api'
 import { dateOptions, labelDate } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import PinInput from '../components/PinInput'
+import VenueAutocomplete from '../components/VenueAutocomplete'
+import MiniMap from '../components/MiniMap'
 
 const TIMEZONES: string[] = (() => {
   try {
@@ -31,6 +33,8 @@ export default function CreateMatchPage() {
   const [date, setDate] = useState(dates[0])
   const [time, setTime] = useState('19:00')
   const [venue, setVenue] = useState('')
+  const [venueLat, setVenueLat] = useState<number | null>(null)
+  const [venueLon, setVenueLon] = useState<number | null>(null)
   const [fee, setFee] = useState('10000')
   const [maxPlayers, setMaxPlayers] = useState('10')
   const [note, setNote] = useState('')
@@ -51,6 +55,8 @@ export default function CreateMatchPage() {
         time,
         timezone,
         venue: venue.trim(),
+        venue_lat: venueLat,
+        venue_lon: venueLon,
         fee: Number(fee),
         max_players: Number(maxPlayers),
         note: note.trim() || null,
@@ -109,7 +115,17 @@ export default function CreateMatchPage() {
 
         <div>
           <label className="mb-1 block text-xs text-gray-500">{t('create.venue')}</label>
-          <input value={venue} onChange={(e) => setVenue(e.target.value)} placeholder={t('create.venuePlaceholder')} className={field} />
+          <VenueAutocomplete
+            value={venue}
+            onChange={(text, lat, lon) => {
+              setVenue(text)
+              setVenueLat(lat)
+              setVenueLon(lon)
+            }}
+            placeholder={t('create.venuePlaceholder')}
+            className={field}
+          />
+          {venueLat != null && venueLon != null && <MiniMap lat={venueLat} lon={venueLon} className="mt-2" />}
         </div>
 
         <div className="flex gap-3">

@@ -43,6 +43,16 @@ function clientIp(req: Request): string {
   return req.headers.get('CF-Connecting-IP') ?? 'local'
 }
 
+// 解析可选的场地经纬度。两者都缺省 → 纯文字场地(null,null)；都为合法坐标 → 数值；否则 'bad'。
+function parseGeo(latRaw: unknown, lonRaw: unknown): { lat: number | null; lon: number | null } | 'bad' {
+  if (latRaw == null && lonRaw == null) return { lat: null, lon: null }
+  const lat = Number(latRaw)
+  const lon = Number(lonRaw)
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return 'bad'
+  if (lat < -90 || lat > 90 || lon < -180 || lon > 180) return 'bad'
+  return { lat, lon }
+}
+
 function randInt(maxExclusive: number): number {
   const buf = new Uint32Array(1)
   crypto.getRandomValues(buf)
@@ -163,10 +173,12 @@ async function createMatch(req: Request, env: Env, ctx: ExecutionContext, ip: st
   const max_players = Number(b.max_players)
   const note = b.note ? String(b.note) : null
   const pin = String(b.pin ?? '')
+  const geo = parseGeo(b.venue_lat, b.venue_lon)
 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return err('VALIDATION', 400, 'bad date')
   if (!/^\d{2}:\d{2}$/.test(time)) return err('VALIDATION', 400, 'bad time')
   if (!venue) return err('VALIDATION', 400, 'venue required')
+  if (geo === 'bad') return err('VALIDATION', 400, 'bad coordinates')
   if (!/^\d{6}$/.test(pin)) return err('VALIDATION', 400, 'pin must be 6 digits')
   if (!Number.isInteger(fee) || fee < 0) return err('VALIDATION', 400, 'fee invalid')
   if (!Number.isInteger(max_players) || max_players < 1) return err('VALIDATION', 400, 'max_players invalid')
@@ -186,9 +198,9 @@ async function createMatch(req: Request, env: Env, ctx: ExecutionContext, ip: st
 
   await env.DB.prepare(
     `INSERT INTO matches
-       (id,date,time,timezone,start_utc,venue,fee,max_players,note,organizer_pin_hash,match_secret,captains_drawn,created_at)
-     VALUES (?,?,?,?,?,?,?,?,?,?,?,0,?)`
-  ).bind(id, date, time, timezone, start_utc, venue, fee, max_players, note,
+       (id,date,time,timezone,start_utc,venue,venue_lat,venue_lon,fee,max_players,note,organizer_pin_hash,match_secret,captains_drawn,created_at)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,0,?)`
+  ).bind(id, date, time, timezone, start_utc, venue, geo.lat, geo.lon, fee, max_players, note,
          organizer_pin_hash, match_secret, Date.now()).run()
 
   // 通知：推送「新场次」给订阅了 pickup_new_matches topic 的 App 用户
@@ -205,7 +217,7 @@ async function createMatch(req: Request, env: Env, ctx: ExecutionContext, ip: st
 
 async function getMatch(env: Env, id: string): Promise<Response> {
   const m = (await env.DB.prepare(
-    `SELECT id,date,time,timezone,start_utc,venue,fee,max_players,note,captains_drawn,created_at
+    `SELECT id,date,time,timezone,start_utc,venue,venue_lat,venue_lon,fee,max_players,note,captains_drawn,created_at
        FROM matches WHERE id = ?`
   ).bind(id).first()) as Record<string, number> | null
   if (!m) return err('NOT_FOUND', 404)
@@ -232,10 +244,11 @@ async function editMatch(req: Request, env: Env, ctx: ExecutionContext, id: stri
   const pin = String(b.pin ?? '')
 
   const m = (await env.DB.prepare(
-    'SELECT date,time,timezone,start_utc,venue,fee,max_players,note,organizer_pin_hash FROM matches WHERE id = ?'
+    'SELECT date,time,timezone,start_utc,venue,venue_lat,venue_lon,fee,max_players,note,organizer_pin_hash FROM matches WHERE id = ?'
   ).bind(id).first()) as {
     date: string; time: string; timezone: string; start_utc: number
-    venue: string; fee: number; max_players: number; note: string | null; organizer_pin_hash: string
+    venue: string; venue_lat: number | null; venue_lon: number | null
+    fee: number; max_players: number; note: string | null; organizer_pin_hash: string
   } | null
   if (!m) return err('NOT_FOUND', 404)
   if (Date.now() > m.start_utc) return err('MATCH_LOCKED', 403)
@@ -250,6 +263,16 @@ async function editMatch(req: Request, env: Env, ctx: ExecutionContext, id: stri
   const max_players = b.max_players !== undefined ? Number(b.max_players) : m.max_players
   const note = b.note !== undefined ? (b.note ? String(b.note) : null) : m.note
 
+  // 经纬度：传了任一字段就按新值（含清空为 null）；都没传则沿用原值
+  let venue_lat = m.venue_lat
+  let venue_lon = m.venue_lon
+  if (b.venue_lat !== undefined || b.venue_lon !== undefined) {
+    const geo = parseGeo(b.venue_lat, b.venue_lon)
+    if (geo === 'bad') return err('VALIDATION', 400, 'bad coordinates')
+    venue_lat = geo.lat
+    venue_lon = geo.lon
+  }
+
   if (!/^\d{2}:\d{2}$/.test(time)) return err('VALIDATION', 400, 'bad time')
   if (!venue) return err('VALIDATION', 400, 'venue required')
   if (!Number.isInteger(fee) || fee < 0) return err('VALIDATION', 400, 'fee invalid')
@@ -257,8 +280,8 @@ async function editMatch(req: Request, env: Env, ctx: ExecutionContext, id: stri
 
   const start_utc = wallTimeToUtcMs(m.date, time, m.timezone) // 改时间需重算开赛时刻
   await env.DB.prepare(
-    'UPDATE matches SET time=?,venue=?,fee=?,max_players=?,note=?,start_utc=? WHERE id=?'
-  ).bind(time, venue, fee, max_players, note, start_utc, id).run()
+    'UPDATE matches SET time=?,venue=?,venue_lat=?,venue_lon=?,fee=?,max_players=?,note=?,start_utc=? WHERE id=?'
+  ).bind(time, venue, venue_lat, venue_lon, fee, max_players, note, start_utc, id).run()
 
   // 通知：推送场次更新给已报名该场的 App 用户
   ctx.waitUntil(notifyTopic(

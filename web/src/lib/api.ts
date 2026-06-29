@@ -35,6 +35,8 @@ export interface MatchDetail {
   timezone: string
   start_utc: number
   venue: string
+  venue_lat: number | null
+  venue_lon: number | null
   fee: number
   max_players: number
   note: string | null
@@ -67,10 +69,13 @@ async function req<T>(path: string, options?: RequestInit): Promise<T> {
 
 export interface CreateBody {
   date: string; time: string; timezone: string; venue: string
+  venue_lat?: number | null; venue_lon?: number | null
   fee: number; max_players: number; note: string | null; pin: string
 }
 export interface EditBody {
-  pin: string; time?: string; venue?: string; fee?: number; max_players?: number; note?: string | null
+  pin: string; time?: string; venue?: string
+  venue_lat?: number | null; venue_lon?: number | null
+  fee?: number; max_players?: number; note?: string | null
 }
 
 export const api = {

@@ -5,6 +5,8 @@ import { whenLabel, tzLabel, shareUrl } from '../lib/format'
 import { useI18n } from '../lib/i18n'
 import Modal from '../components/Modal'
 import PinInput from '../components/PinInput'
+import VenueAutocomplete from '../components/VenueAutocomplete'
+import MiniMap from '../components/MiniMap'
 
 type ModalState =
   | { type: 'register' }
@@ -99,6 +101,7 @@ export default function MatchDetailPage() {
           <span className="w-20 shrink-0 text-sm text-gray-500">{t('detail.onFieldLabel')}</span>
           <span className="text-base font-medium text-gray-900">{t('detail.players', { n: m.max_players })}</span>
         </div>
+        {m.venue_lat != null && m.venue_lon != null && <MiniMap lat={m.venue_lat} lon={m.venue_lon} className="pt-1" />}
       </div>
 
       {m.note && <p className="mt-3 rounded-lg bg-amber-50 p-3 text-base leading-relaxed text-gray-700">{m.note}</p>}
@@ -317,6 +320,8 @@ function EditModal({ m, onClose, onDone }: { m: MatchDetail; onClose: () => void
   const { t } = useI18n()
   const [time, setTime] = useState(m.time)
   const [venue, setVenue] = useState(m.venue)
+  const [venueLat, setVenueLat] = useState<number | null>(m.venue_lat)
+  const [venueLon, setVenueLon] = useState<number | null>(m.venue_lon)
   const [fee, setFee] = useState(String(m.fee))
   const [maxPlayers, setMaxPlayers] = useState(String(m.max_players))
   const [note, setNote] = useState(m.note ?? '')
@@ -332,6 +337,8 @@ function EditModal({ m, onClose, onDone }: { m: MatchDetail; onClose: () => void
         pin,
         time,
         venue: venue.trim(),
+        venue_lat: venueLat,
+        venue_lon: venueLon,
         fee: Number(fee),
         max_players: Number(maxPlayers),
         note: note.trim() || null,
@@ -346,7 +353,19 @@ function EditModal({ m, onClose, onDone }: { m: MatchDetail; onClose: () => void
     <Modal title={t('edit.title')} onClose={onClose}>
       <div className="space-y-3">
         <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className={field} />
-        <input value={venue} onChange={(e) => setVenue(e.target.value)} placeholder={t('edit.venue')} className={field} />
+        <div>
+          <VenueAutocomplete
+            value={venue}
+            onChange={(text, lat, lon) => {
+              setVenue(text)
+              setVenueLat(lat)
+              setVenueLon(lon)
+            }}
+            placeholder={t('edit.venue')}
+            className={field}
+          />
+          {venueLat != null && venueLon != null && <MiniMap lat={venueLat} lon={venueLon} className="mt-2" />}
+        </div>
         <div className="flex gap-3">
           <input type="number" min={0} value={fee} onChange={(e) => setFee(e.target.value)} className={field} placeholder={t('edit.fee')} />
           <input type="number" min={1} value={maxPlayers} onChange={(e) => setMaxPlayers(e.target.value)} className={field} placeholder={t('edit.max')} />

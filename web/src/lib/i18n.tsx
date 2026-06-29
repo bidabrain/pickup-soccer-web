@@ -37,6 +37,7 @@ const zh: Dict = {
   'del.title': '删除本场', 'del.warn': '将永久删除本场，并移除 {n} 名报名球员。此操作不可恢复。', 'del.pin': '管理 PIN', 'del.confirm': '确认删除', 'del.errPin': '请输入管理 PIN',
   'draw.title': '随机抽 2 名队长', 'draw.desc': '从「确认上场」名单中随机抽取 2 人作为队长。可重复抽，覆盖上次结果。', 'draw.pin': '管理 PIN', 'draw.submit': '抽取',
   'pin.placeholder': '6 位数字',
+  'venue.searching': '搜索中…', 'venue.viewLarger': '在地图中查看',
   'err.pinInvalid': 'PIN 错误', 'err.pinDuplicate': '该 PIN 与本场其他人重复，请换一个', 'err.rateLimited': '尝试过于频繁，请约 10 分钟后再试', 'err.matchLocked': '该场已开赛，不可修改', 'err.notFound': '未找到（可能已被清除）', 'err.validation': '输入有误', 'err.failed': '操作失败', 'err.network': '网络错误，请重试',
 }
 
@@ -65,6 +66,7 @@ const en: Dict = {
   'del.title': 'Delete match', 'del.warn': 'This permanently deletes the match and removes {n} registered players. This cannot be undone.', 'del.pin': 'Manager PIN', 'del.confirm': 'Confirm delete', 'del.errPin': 'Please enter the manager PIN',
   'draw.title': 'Draw 2 captains', 'draw.desc': 'Randomly pick 2 captains from the confirmed list. You can redraw, which overwrites the previous result.', 'draw.pin': 'Manager PIN', 'draw.submit': 'Draw',
   'pin.placeholder': '6 digits',
+  'venue.searching': 'Searching…', 'venue.viewLarger': 'View larger map',
   'err.pinInvalid': 'Wrong PIN', 'err.pinDuplicate': 'This PIN is already used in this match — pick another', 'err.rateLimited': 'Too many attempts — try again in ~10 minutes', 'err.matchLocked': 'This match has started and cannot be changed', 'err.notFound': 'Not found (may have been cleared)', 'err.validation': 'Invalid input', 'err.failed': 'Operation failed', 'err.network': 'Network error, please retry',
 }
 
@@ -93,6 +95,7 @@ const ko: Dict = {
   'del.title': '경기 삭제', 'del.warn': '경기를 영구 삭제하고 신청자 {n}명을 제거합니다. 되돌릴 수 없습니다.', 'del.pin': '관리 PIN', 'del.confirm': '삭제 확인', 'del.errPin': '관리 PIN을 입력하세요',
   'draw.title': '주장 2명 뽑기', 'draw.desc': '확정 명단에서 무작위로 2명을 주장으로 뽑습니다. 다시 뽑으면 이전 결과를 덮어씁니다.', 'draw.pin': '관리 PIN', 'draw.submit': '뽑기',
   'pin.placeholder': '6자리 숫자',
+  'venue.searching': '검색 중…', 'venue.viewLarger': '지도에서 보기',
   'err.pinInvalid': 'PIN 오류', 'err.pinDuplicate': '이 PIN은 이미 사용 중입니다 — 다른 PIN을 사용하세요', 'err.rateLimited': '시도가 너무 많습니다 — 약 10분 후 다시 시도하세요', 'err.matchLocked': '이미 시작된 경기로 변경할 수 없습니다', 'err.notFound': '찾을 수 없음 (삭제되었을 수 있음)', 'err.validation': '입력 오류', 'err.failed': '작업 실패', 'err.network': '네트워크 오류, 다시 시도하세요',
 }
 
